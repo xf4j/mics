@@ -15,13 +15,14 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
+    # define permission by action
     permission_classes_by_action = {
-        'create': (permissions.IsAuthenticated|IsOrganizationAdminUser,),
+        'create': (permissions.IsAdminUser|IsOrganizationAdminUser,),
         'destroy': (permissions.IsAdminUser|IsOrganizationAdminUser,),
         'retrieve': (permissions.IsAuthenticated,),
         'list': (permissions.IsAuthenticated,),
-        'update': (permissions.IsAuthenticated|IsOrganizationAdminUser,),
-        'partial_update': (permissions.IsAuthenticated|IsOrganizationAdminUser,),
+        'update': (permissions.IsAuthenticated,),
+        'partial_update': (permissions.IsAuthenticated,),
     }
 
     def get_permissions(self):
@@ -71,11 +72,13 @@ class UserViewSet(viewsets.ModelViewSet):
         '''
         Custom create user method
         '''
+
+        # formatting request data
         if 'profile' in request.data:
             request.data['profile.organization'] = request.data['profile']['organization']
         organization =  Organization.objects.get(pk=request.data['profile.organization'])
         
-        
+        # permission and non existing exception
         if not request.user.is_staff and not request.user.profile.organization == organization:
             return Response({'detail': 'You do not have access to this organization.'}, status=status.HTTP_403_FORBIDDEN)
         if not organization:

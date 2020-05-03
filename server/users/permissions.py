@@ -13,4 +13,6 @@ class IsOrganizationAdminUser(permissions.BasePermission):
         return False
 
     def has_permission(self, request, view):
-        return bool(getattr(request.user, 'profile.is_admin', None))
+        attr = getattr(request.user, 'profile', None)
+        attr = getattr(attr, 'is_admin', False) 
+        return bool(attr)
