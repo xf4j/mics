@@ -5,24 +5,25 @@ export class User{
     token: string|null;
     profile: UserProfile| null;
     isStaff: boolean;
+
     constructor(
         username: string|null = null,
         email: string|null = null,
         userId: number|null = null,
         token: string|null = null,
         profile: UserProfile|null = null,
-        isStaff: boolean = false
+        isStaff: boolean = false,
     ){
-        this.update(username, email, userId, token, profile, isStaff);
+        this.updateUser(username, email, userId, token, profile, isStaff);
     }
 
-    update(
+    updateUser(
         username: string|null = null,
         email: string|null = null,
         userId: number|null = null,
         token: string|null = null,
         profile: UserProfile | null = null,
-        isStaff: boolean = false
+        isStaff: boolean = false,
     ){
         this.username = username;
         this.email = email;
@@ -33,7 +34,36 @@ export class User{
     }
 
     reset(){
-        this.update();
+        this.updateUser();
+    }
+}
+
+export class LoginUser extends User{
+    exp: number|null;
+    constructor(
+        username: string|null = null,
+        email: string|null = null,
+        userId: number|null = null,
+        token: string|null = null,
+        profile: UserProfile|null = null,
+        isStaff: boolean = false,
+        exp: number|null = null
+    ){
+        super(username, email, userId, token, profile, isStaff);
+        this.exp = exp;
+    }
+
+    updateLoginUser(
+        username: string|null = null,
+        email: string|null = null,
+        userId: number|null = null,
+        token: string|null = null,
+        profile: UserProfile | null = null,
+        isStaff: boolean = false,
+        exp: number|null = null
+    ){
+        super.updateUser(username, email, userId, token, profile, isStaff);
+        this.exp = exp;
     }
 }
 
@@ -47,11 +77,10 @@ export class UserProfile{
         this.update(isAdmin, organization);
     }
     update(
-    isAdmin: boolean = false,
-    organization: string|null = null
+        isAdmin: boolean = false,
+        organization: string|null = null
     ){
         this.isAdmin = isAdmin;
         this.organization = organization;
     }
 }
-

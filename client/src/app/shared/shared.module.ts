@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { MatToolbarModule } from "@angular/material/toolbar";
+
 import { SharedRoutingModule } from './shared-routing.module';
 import { HeaderComponent } from './components/header/header.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
@@ -10,7 +12,12 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
   declarations: [HeaderComponent, SidenavComponent],
   imports: [
     CommonModule,
-    SharedRoutingModule
+    SharedRoutingModule,
+    MatToolbarModule
+  ],
+  exports: [
+    HeaderComponent,
+    SidenavComponent
   ]
 })
 export class SharedModule { }
