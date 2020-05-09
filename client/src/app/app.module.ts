@@ -6,22 +6,21 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from '@core/core.module';
 import { UsersModule } from '@/users/users.module';
-import { AuthService } from '@core/services/auth.service';
-import { HeaderComponent } from './share/components/header/header.component';
+import { NavigationModule } from "@/navigation/navigation.module";
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     CoreModule,
-    UsersModule
+    UsersModule,
+    NavigationModule
   ],
-  providers: [AuthService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
