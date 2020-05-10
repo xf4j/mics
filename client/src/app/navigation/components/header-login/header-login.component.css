@@ -1,0 +1,19 @@
+.close-button{
+    float: right;
+    top: -24px;
+    right: -24px;
+}
+
+.login-form {
+    width: 100%;
+}
+
+.login-title {
+    text-align: center;
+}
+
+.login-button {
+    float: right;
+    right: 0;
+    bottom: -5px;
+}

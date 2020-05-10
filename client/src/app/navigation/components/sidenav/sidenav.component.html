@@ -1,13 +1,15 @@
-<app-header></app-header>
+<app-header (toggleOuter)="getToggle()"></app-header>
 
-<mat-sidenav-container class="navigation">
-  <mat-sidenav #sidenav mode="side" [(opened)]="opened">
+<mat-sidenav-container class="navigation" class="sidenav-container">
+  <mat-sidenav #sidenav mode="side" [(opened)]="opened" class='sidenav'
+              [fixedInViewport]=true>
     sidenav content
 
   </mat-sidenav>
 
   <mat-sidenav-content>
     <p>contetnt.</p>
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 
 </mat-sidenav-container>

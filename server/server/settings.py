@@ -25,8 +25,7 @@ SECRET_KEY = 'janf8e0q=swqa2pje-um@12=a@@7#136u(o)tc86)%&c0ha9^j'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'testserver']
 
 # Application definition
 
@@ -41,7 +40,6 @@ INSTALLED_APPS = [
     #'rest_auth',
     'users.apps.UsersConfig',
     'organizations.apps.OrganizationsConfig',
-    'subjects.apps.SubjectsConfig',
     'corsheaders', # cross domain support
 ]
 

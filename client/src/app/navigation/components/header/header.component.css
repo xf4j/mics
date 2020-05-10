@@ -1,0 +1,24 @@
+.fixed-header {
+    position: fixed;
+    width: 100% !important;
+    height: 60px;
+    left: 0px;
+    top: 0;
+    z-index: 2;
+    vertical-align: middle;
+    
+}
+.filler {
+    flex: 1 1 auto;
+}
+.gap {
+    margin-right: 30px;
+}
+
+.fixed-header .header-icon {
+    vertical-align: middle;
+}
+
+.fixed-header .button {
+    vertical-align: middle;
+}

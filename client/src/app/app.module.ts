@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from '@core/core.module';
 import { UsersModule } from '@/users/users.module';
-import { NavigationModule } from "@/navigation/navigation.module";
+import { NavigationModule } from '@/navigation/navigation.module';
 
 @NgModule({
   declarations: [

@@ -71,4 +71,8 @@ export class AuthService {
   isLoggedIn(): boolean{
     return (!!this.CurrentUser.username) && this.CurrentUser.exp > Date.now() / 1000;
   }
+
+  getCurrentUser() {
+    return this.CurrentUser.username;
+  }
 }

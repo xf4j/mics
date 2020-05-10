@@ -1,1 +1,25 @@
-<p>header works!</p>
+<mat-toolbar-row>
+  <mat-toolbar color='primary' class="fixed-header">
+    <button mat-icon-button (click)="onToggleClick()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="gap"></span>
+    <span class = 'gap'>App</span>
+    <span> Product</span>
+    <span class = "filler"></span>
+
+    <span *ngIf="isLoggedIn" >
+      <mat-icon class="header-icon" [matMenuTriggerFor]="beforeMenu">account_circle</mat-icon>
+      <mat-menu #beforeMenu="matMenu">
+        <button mat-menu-item (click)="onLogout()">Logout</button>
+      </mat-menu>
+    </span>
+      
+    <span *ngIf="!isLoggedIn">
+      <button mat-stroked-button (click)="onLogin()" class="button">
+        Login
+      </button>
+    </span>
+</mat-toolbar>
+
+</mat-toolbar-row>

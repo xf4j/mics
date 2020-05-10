@@ -1,0 +1,13 @@
+.sidenav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20%;
+    background-color: white;
+}
+
+.sidenav-container {
+    bottom: 0px;
+    left: 0px;
+    height: 100%;
+}

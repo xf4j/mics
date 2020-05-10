@@ -1,25 +1,25 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { MatToolbarModule } from "@angular/material/toolbar";
-import { MatButtonModule, MatButton } from "@angular/material/button";
-import { MatIconModule } from "@angular/material/icon";
-import { MatSidenav, MatSidenavModule } from "@angular/material/sidenav";
+
 
 import { NavigationRoutingModule } from './navigation-routing.module';
+import { MaterialModule } from '@/material/material.module';
+
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { HeaderComponent } from './components/header/header.component';
+import { HeaderLoginComponent } from './components/header-login/header-login.component';
 
 
 @NgModule({
-  declarations: [SidenavComponent, HeaderComponent],
+  declarations: [SidenavComponent, HeaderComponent, HeaderLoginComponent],
   imports: [
     CommonModule,
     NavigationRoutingModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatSidenavModule
+    FormsModule,
+    ReactiveFormsModule,
+    MaterialModule
   ],
   exports: [
     SidenavComponent
