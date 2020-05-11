@@ -1,14 +1,13 @@
-<button mat-icon-button class="close-button" (click)="onClose()">
-  <mat-icon class="close-icon">close</mat-icon>
-</button>
-
-<h2 mat-mat-dialog-title class="login-title">Login</h2>
-
 <div>
   <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <button mat-icon-button class="close-button" (click)="onClose()">
+      <mat-icon class="close-icon">close</mat-icon>
+    </button>
+    
+    <h2 mat-mat-dialog-title class="login-title">Login</h2>
     <mat-form-field appearance="fill" class="login-form">
       <mat-label for="username"> Username*</mat-label>
-      <input matInput autofocus formControlName="username" autocomplete="username">
+      <input matInput cdkFocusInitial formControlName="username" autocomplete="username">
     </mat-form-field>
     <br>
     <mat-form-field appearance="fill" class="login-form">

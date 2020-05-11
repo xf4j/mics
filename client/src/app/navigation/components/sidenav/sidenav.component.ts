@@ -34,7 +34,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
   getToggle(){
     this.opened = this.isLoggedIn ? (!this.opened) : false;
     if (isDevMode()) {
-      console.log(this.opened, this.isLoggedIn, this.subscription);
+      console.log(this.opened, this.isLoggedIn);
     }
   }
 

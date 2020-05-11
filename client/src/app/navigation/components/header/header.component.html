@@ -8,18 +8,20 @@
     <span> Product</span>
     <span class = "filler"></span>
 
-    <span *ngIf="isLoggedIn" >
+    <span *ngIf="isLoggedIn; else notLoggedInBlock" >
       <mat-icon class="header-icon" [matMenuTriggerFor]="beforeMenu">account_circle</mat-icon>
       <mat-menu #beforeMenu="matMenu">
         <button mat-menu-item (click)="onLogout()">Logout</button>
       </mat-menu>
     </span>
-      
-    <span *ngIf="!isLoggedIn">
-      <button mat-stroked-button (click)="onLogin()" class="button">
-        Login
-      </button>
-    </span>
+    <ng-template #notLoggedInBlock>
+      <span>
+        <button mat-stroked-button (click)="onLogin()" class="button">
+          Login
+        </button>
+      </span>
+    </ng-template>
+
 </mat-toolbar>
 
 </mat-toolbar-row>

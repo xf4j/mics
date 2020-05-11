@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from "@core/services/auth.service";
+import { UserService } from "../../services/user.service";
 
 import { User } from "@/models/users.model";
 
@@ -10,13 +10,28 @@ import { User } from "@/models/users.model";
 })
 export class UserListComponent implements OnInit {
 
-  private userList: {users: User}[];
+  public userList: User[] = [];
+  private organizationList: [];
 
   constructor(
-    private authService: AuthService
+    private userService: UserService
+
   ) { }
 
   ngOnInit(): void {
+  }
+
+  onButton() {
+    // this.userService.getUser().subscribe(
+    //   data => {
+    //     this.getUserList();
+    //   }
+    // );
+    this.userService.getOrganization().subscribe();
+  }
+
+  getUserList() {
+    this.userList = this.userService.userList;
   }
 
 }

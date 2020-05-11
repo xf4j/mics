@@ -1,9 +1,12 @@
-<app-header (toggleOuter)="getToggle()"></app-header>
+<app-header (toggleOuter)="getToggle()" [(isLoggedIn)] = "isLoggedIn"></app-header>
+
 
 <mat-sidenav-container class="navigation" class="sidenav-container">
   <mat-sidenav #sidenav mode="side" [(opened)]="opened" class='sidenav'
-              [fixedInViewport]=true>
-    sidenav content
+              [fixedInViewport]=false>
+    <div>
+      <app-user-list></app-user-list>
+    </div>
 
   </mat-sidenav>
 

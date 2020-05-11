@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { UsersRoutingModule } from './users-routing.module';
 import { UserListComponent } from './components/user-list/user-list.component';
 
-
+import { MaterialModule } from "@/material/material.module";
 
 
 @NgModule({
@@ -12,9 +12,9 @@ import { UserListComponent } from './components/user-list/user-list.component';
   imports: [
     CommonModule,
     UsersRoutingModule,
-
+    MaterialModule
   ],
   providers: [],
-  exports: []
+  exports: [UserListComponent]
 })
 export class UsersModule { }

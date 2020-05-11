@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 import { NavigationRoutingModule } from './navigation-routing.module';
+import { UsersModule } from "@/users/users.module";
 import { MaterialModule } from '@/material/material.module';
 
 import { SidenavComponent } from './components/sidenav/sidenav.component';
@@ -19,7 +20,8 @@ import { HeaderLoginComponent } from './components/header-login/header-login.com
     NavigationRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule
+    MaterialModule,
+    UsersModule
   ],
   exports: [
     SidenavComponent

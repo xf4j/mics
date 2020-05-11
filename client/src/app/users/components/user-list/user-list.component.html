@@ -1,1 +1,14 @@
-<p>user-list works!</p>
+<button mat-button (click)="onButton()">Test</button>
+
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Organization
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <mat-list-item *ngFor="let user of userList">
+    <mat-icon>supervisor_account</mat-icon>
+    <span>{{user.username}}</span>
+  </mat-list-item>
+</mat-expansion-panel>

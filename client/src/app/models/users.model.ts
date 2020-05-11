@@ -1,70 +1,51 @@
+export interface IUser {
+    username: string;
+    email: string;
+    id: number;
+    profile: UserProfile | null;
+}
+
+interface ILoginUser {
+    username: string;
+    email: string;
+    id: number;
+    profile: UserProfile | null;
+    token: string;
+    exp: number;
+}
+
 export class User{
     username: string|null;
     email: string| null;
     userId: number | null;
-    // token: string|null;
     profile: UserProfile| null;
-    isStaff: boolean;
 
-    constructor(
-        username: string|null = null,
-        email: string|null = null,
-        userId: number|null = null,
-        // token: string|null = null,
-        profile: UserProfile|null = null,
-        isStaff: boolean = false,
+    constructor( user?: IUser
     ){
-        this.updateUser(username, email, userId, profile, isStaff);
+        this.updateUser(user);
     }
 
-    updateUser(
-        username: string|null = null,
-        email: string|null = null,
-        userId: number|null = null,
-        // token: string|null = null,
-        profile: UserProfile | null = null,
-        isStaff: boolean = false,
-    ){
+    updateUser(user?: IUser){
+        const {username, email, id, profile} = {username: '', email: '', id: -1, profile: null, ...user};
         this.username = username;
         this.email = email;
-        this.userId = userId;
-        // this.token = token;
+        this.userId = id;
         this.profile = profile;
-        this.isStaff = isStaff;
     }
 
-    reset(){
-        this.updateUser();
-    }
 }
 
 export class LoginUser extends User{
     exp: number|null;
     token: string | null;
-    constructor(
-        username: string|null = null,
-        email: string|null = null,
-        userId: number|null = null,
-        profile: UserProfile|null = null,
-        isStaff: boolean = false,
-        token: string|null = null,
-        exp: number|null = null
-    ){
-        super(username, email, userId, profile, isStaff);
-        this.token = token;
-        this.exp = exp;
+    constructor(user?: ILoginUser){
+        super(user);
+        this.updateLoginUser(user);
     }
 
-    updateLoginUser(
-        username: string|null = null,
-        email: string|null = null,
-        userId: number|null = null,
-        profile: UserProfile | null = null,
-        isStaff: boolean = false,
-        token: string|null = null,
-        exp: number|null = null
-    ){
-        super.updateUser(username, email, userId, profile, isStaff);
+    updateLoginUser(user?: ILoginUser){
+        const {token, exp} = {token: '', exp: -1, ...user};
+        super.updateUser(user);
         this.token = token;
         this.exp = exp;
     }
@@ -74,16 +55,32 @@ export class UserProfile{
     isAdmin: boolean;
     organization: string;
     constructor(
-        isAdmin: boolean = false,
-        organization: string|null = null
+        profile: {isAdmin: boolean,
+        organization: string}
     ){
-        this.update(isAdmin, organization);
+        this.update(profile);
     }
     update(
-        isAdmin: boolean = false,
-        organization: string|null = null
+        profile: {isAdmin: boolean,
+        organization: string}
     ){
+        const {isAdmin, organization} = {isAdmin: false, organization: '', ...profile};
         this.isAdmin = isAdmin;
         this.organization = organization;
+    }
+}
+
+export interface IOrgList{
+    id: number;
+    name: string;
+}
+
+export class Organization{
+    id: number;
+    name: string;
+    constructor(organization: IOrgList){
+        const {id, name} = {id: -1, name: '', ...organization};
+        this.id = id;
+        this.name = name;
     }
 }

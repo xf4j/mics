@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { AuthService } from '@core/services/auth.service';
 
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -15,7 +15,7 @@ export class HeaderComponent implements OnInit {
   @Output() private toggleOuter = new EventEmitter();
   toggle = true;
 
-  isLoggedIn = false;
+  @Input() isLoggedIn: boolean;
   username: string;
   password: string;
 
@@ -46,14 +46,7 @@ export class HeaderComponent implements OnInit {
     const dialogRef = this.dialog.open(HeaderLoginComponent, dialogConfig);
 
     // status update
-    dialogRef.afterClosed().subscribe(result => {
-
-      // successful login.
-      if (this.authService.isLoggedIn()) {
-        this.isLoggedIn = true;
-        this.username = this.authService.getCurrentUser();
-      }
-    });
+    dialogRef.afterClosed().subscribe();
 
   }
 

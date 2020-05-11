@@ -48,7 +48,8 @@ export class AuthService {
   refreshToken() {
     return this.http.post(this.serverService.refreshTokenAPI(), {token: this.CurrentUser.token}, this.httpOptions)
     .pipe(map( data => {
-      this.CurrentUser.token = data['token'.toString()];
+      // this.CurrentUser.token = data['token'.toString()];
+      this.updateUser(data['token'.toString()]);
       this.storageService.saveCurrentUser(JSON.stringify(this.CurrentUser));
       this.loginStatus.next(this.isLoggedIn());
       return data;
@@ -73,26 +74,26 @@ export class AuthService {
 
   private updateUser(token: string): void{
     const tokenDecoded = this.decodeToken(token);
-    const profile = (!!tokenDecoded.organization) ? new UserProfile(tokenDecoded.is_admin, tokenDecoded.organization) : null;
+    const profile = (!!tokenDecoded.organization) ?
+      new UserProfile({isAdmin: tokenDecoded.is_admin, organization: tokenDecoded.organization}) : null;
     this.CurrentUser.updateLoginUser(
-      tokenDecoded.username,
-      tokenDecoded.email,
-      tokenDecoded.user_id,
+      {username: tokenDecoded.username,
+      email: tokenDecoded.email,
+      id: tokenDecoded.user_id,
       profile,
-      tokenDecoded.is_staff,
       token,
-      tokenDecoded.exp
-      );
-
+      exp: tokenDecoded.exp}
+    );
     this.storageService.saveCurrentUser(JSON.stringify(this.CurrentUser));
   }
 
   private resetUser(): void{
-    this.CurrentUser.reset();
+    this.CurrentUser = new LoginUser(); // .reset();
   }
 
   isLoggedIn(): boolean{
-    return (!!this.CurrentUser.username) && this.CurrentUser.exp > Date.now() / 1000;
+    console.log(this.CurrentUser);
+    return (!!this.CurrentUser.username) && this.CurrentUser.exp >= Date.now() / 1000;
   }
 
   getCurrentUser() {
