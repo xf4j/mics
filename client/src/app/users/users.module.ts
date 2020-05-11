@@ -14,6 +14,7 @@ import { UserListComponent } from './components/user-list/user-list.component';
     UsersRoutingModule,
 
   ],
+  providers: [],
   exports: []
 })
 export class UsersModule { }
