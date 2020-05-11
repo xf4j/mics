@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthService } from './services/auth.service';
 import { StorageService } from './services/storage.service';
 import { ServerService } from './services/server.service';
+import { TokenInterceptor } from './interceptors/token.interceptor';
 
 
 
@@ -17,7 +18,12 @@ import { ServerService } from './services/server.service';
   providers: [
     StorageService,
     ServerService,
-    AuthService
+    AuthService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
   ],
   exports: [
   ]

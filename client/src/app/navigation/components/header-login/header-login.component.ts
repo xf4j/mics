@@ -3,6 +3,7 @@ import { AuthService } from '@core/services/auth.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
+// Todo: error notice when login request is refused
 @Component({
   selector: 'app-header-login',
   templateUrl: './header-login.component.html',

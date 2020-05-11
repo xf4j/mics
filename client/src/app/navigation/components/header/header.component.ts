@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter} from '@angular/core';
-import { AuthService } from "@core/services/auth.service";
+import { AuthService } from '@core/services/auth.service';
 
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { HeaderLoginComponent } from '../header-login/header-login.component';
@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
   ) {
     this.isLoggedIn = this.authService.isLoggedIn();
     if (this.isLoggedIn) {

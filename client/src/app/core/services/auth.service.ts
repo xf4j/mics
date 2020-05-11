@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { StorageService } from './storage.service';
 import { ServerService } from './server.service';
 import { LoginUser, UserProfile } from '@/models/users.model';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,8 @@ export class AuthService {
   };
   // Current user instance
   private CurrentUser: LoginUser;
+  public loginStatus = new Subject<boolean>();
+
 
   constructor(
     private storageService: StorageService,
@@ -24,6 +27,8 @@ export class AuthService {
   ) {
     const obj = JSON.parse(this.storageService.loadCurrentUser());
     this.CurrentUser = obj ? Object.assign(new LoginUser(), obj) : new LoginUser();
+    this.refreshToken();
+    this.loginStatus.next(this.isLoggedIn());
   }
 
   // login to get token from the server.
@@ -35,6 +40,23 @@ export class AuthService {
         this.updateUser(token);
         this.storageService.saveCurrentUser(JSON.stringify(this.CurrentUser));
       }
+      this.loginStatus.next(!!token);
+    }));
+  }
+
+  // get refresh token
+  refreshToken() {
+    return this.http.post(this.serverService.refreshTokenAPI(), {token: this.CurrentUser.token}, this.httpOptions)
+    .pipe(map( data => {
+      this.CurrentUser.token = data['token'.toString()];
+      this.storageService.saveCurrentUser(JSON.stringify(this.CurrentUser));
+      this.loginStatus.next(this.isLoggedIn());
+      return data;
+    },
+    err => {
+      this.resetUser();
+      this.storageService.removeCurrentUser();
+      this.loginStatus.next(false);
     }));
   }
 
@@ -42,6 +64,7 @@ export class AuthService {
   logout(): void{
     this.resetUser();
     this.storageService.removeCurrentUser();
+    this.loginStatus.next(false);
   }
 
   private decodeToken(token: string){
@@ -50,18 +73,18 @@ export class AuthService {
 
   private updateUser(token: string): void{
     const tokenDecoded = this.decodeToken(token);
-
-    const profile = (!!this.CurrentUser.profile) ? new UserProfile(tokenDecoded.is_admin, tokenDecoded.organization) : null;
+    const profile = (!!tokenDecoded.organization) ? new UserProfile(tokenDecoded.is_admin, tokenDecoded.organization) : null;
     this.CurrentUser.updateLoginUser(
       tokenDecoded.username,
       tokenDecoded.email,
       tokenDecoded.user_id,
-      token, profile,
+      profile,
       tokenDecoded.is_staff,
+      token,
       tokenDecoded.exp
       );
 
-    this.storageService.saveCurrentUser(this.CurrentUser);
+    this.storageService.saveCurrentUser(JSON.stringify(this.CurrentUser));
   }
 
   private resetUser(): void{
@@ -75,4 +98,9 @@ export class AuthService {
   getCurrentUser() {
     return this.CurrentUser.username;
   }
+
+  getToken() {
+    return this.CurrentUser.token;
+  }
+
 }

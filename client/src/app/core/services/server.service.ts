@@ -5,18 +5,22 @@ import { Injectable } from '@angular/core';
 })
 export class ServerService {
 
-  private domain = 'http://127.0.0.1:8000/api/';
+  private serverAPI = 'http://127.0.0.1:8000/api/';
 
   usersBaseAPI(): string{
-    return this.domain + 'users/';
+    return this.serverAPI + 'users/';
   }
 
   organizationsBaseAPI(): string{
-    return this.domain + 'organizations/';
+    return this.serverAPI + 'organizations/';
   }
 
   loginAPI(): string{
-    return this.domain + 'token-auth/';
+    return this.serverAPI + 'token-auth/';
+  }
+
+  refreshTokenAPI(): string{
+    return this.serverAPI + 'token-refresh/';
   }
 
   constructor() { }

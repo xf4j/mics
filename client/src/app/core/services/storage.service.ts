@@ -19,7 +19,7 @@ export class StorageService {
     localStorage.removeItem('token');
   }
 
-  saveCurrentUser(user){
+  saveCurrentUser(user: string){
     localStorage.setItem('CurrentUser', user);
   }
 
