@@ -3,6 +3,7 @@ export interface IUser {
     email: string;
     id: number;
     profile: UserProfile | null;
+    is_staff: boolean;
 }
 
 interface ILoginUser {
@@ -20,6 +21,7 @@ export class User{
     email: string| null;
     userId: number | null;
     profile: UserProfile| null;
+    is_staff: boolean;
 
     constructor( user?: IUser
     ){
@@ -27,10 +29,11 @@ export class User{
     }
 
     updateUser(user?: IUser){
-        const {username, email, id, profile} = {username: '', email: '', id: -1, profile: null, ...user};
+        const {username, email, id, profile, is_staff} = {username: '', email: '', id: -1, is_staff: false, profile: null, ...user};
         this.username = username;
         this.email = email;
         this.userId = id;
+        this.is_staff = is_staff;
         this.profile = profile;
     }
 
@@ -39,18 +42,16 @@ export class User{
 export class LoginUser extends User{
     exp: number|null;
     token: string | null;
-    is_staff: boolean;
     constructor(user?: ILoginUser){
         super(user);
         this.updateLoginUser(user);
     }
 
     updateLoginUser(user?: ILoginUser){
-        const {token, exp, is_staff} = {token: '', exp: -1, is_staff: false, ...user};
+        const {token, exp} = {token: '', exp: -1, ...user};
         super.updateUser(user);
         this.token = token;
         this.exp = exp;
-        this.is_staff = is_staff;
     }
 }
 

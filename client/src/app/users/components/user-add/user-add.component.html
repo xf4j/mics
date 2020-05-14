@@ -1,1 +1,31 @@
-<p>user-add works!</p>
+<div class="container">
+  <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+    <h2 mat-mat-dialog-title class="title">Create user</h2>
+
+    <mat-form-field class="create-form">
+      <mat-label for="username">Username</mat-label>
+      <input matInput formControlName="username">
+    </mat-form-field>
+    <br>
+    <mat-form-field class="create-form">
+      <mat-label for="password1">Password</mat-label>
+      <input matInput formControlName="password1">
+    </mat-form-field>
+    <br>
+    <mat-form-field class="create-form">
+      <mat-label for="password2">Re-enter password</mat-label>
+      <input matInput formControlName="password2">
+    </mat-form-field>
+    <br>
+    <mat-form-field class="create-form">
+      <mat-label for="password2">Email</mat-label>
+      <input matInput formControlName="email">
+    </mat-form-field>
+    <br>
+
+
+
+
+
+  </form>
+</div>

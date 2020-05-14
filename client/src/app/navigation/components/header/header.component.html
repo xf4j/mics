@@ -14,7 +14,7 @@
         {{authService.getCurrentUser()}}
       </button>
       <mat-menu #afterMenu="matMenu" class="user-menu">
-        <button mat-menu-item (click)="onLogout()">Logout</button>
+        <button mat-menu-item (click)="onLogout()" class="user-menu-item">Logout</button>
       </mat-menu>
     </span>
     <ng-template #notLoggedInBlock>

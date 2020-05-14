@@ -10,7 +10,7 @@
       <div class="sidenav-wrapper">
         <a routerLink='dashboard' *ngIf="auth.getStaff()" button mat-icon-button class="create-group" (click)='onAdd()'><mat-icon>create_new_folder</mat-icon></a>
         <app-user-list class="user-list"></app-user-list>
-        <a routerLink='dashboard'  button mat-icon-button class="create-group"><mat-icon>add</mat-icon></a>
+        <a routerLink='user-add'  button mat-icon-button class="create-group"><mat-icon>add</mat-icon></a>
         <div class="filler"></div>
 
         <div class="manage-list">
