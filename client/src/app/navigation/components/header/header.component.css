@@ -19,6 +19,11 @@
     vertical-align: middle;
 }
 
-.fixed-header .button {
+.fixed-header a {
     vertical-align: middle;
+    font-size: 20px;
+}
+
+.user-menu {
+    
 }

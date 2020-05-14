@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 import { StorageService } from './storage.service';
 import { ServerService } from './server.service';
@@ -24,11 +25,15 @@ export class AuthService {
     private storageService: StorageService,
     private http: HttpClient,
     private serverService: ServerService,
+    private router: Router,
   ) {
-    const obj = JSON.parse(this.storageService.loadCurrentUser());
-    this.CurrentUser = obj ? Object.assign(new LoginUser(), obj) : new LoginUser();
-    this.refreshToken();
-    this.loginStatus.next(this.isLoggedIn());
+    const token = this.storageService.loadToken();
+    this.CurrentUser = new LoginUser();
+    if (!!token) {
+      this.updateUser(token);
+      this.refreshToken();
+      this.loginStatus.next(this.isLoggedIn());
+    }
   }
 
   // login to get token from the server.
@@ -38,7 +43,7 @@ export class AuthService {
       const token = data['token'.toString()];
       if (!!token) {
         this.updateUser(token);
-        this.storageService.saveCurrentUser(JSON.stringify(this.CurrentUser));
+        this.storageService.saveToken(token);
       }
       this.loginStatus.next(!!token);
     }));
@@ -50,13 +55,13 @@ export class AuthService {
     .pipe(map( data => {
       // this.CurrentUser.token = data['token'.toString()];
       this.updateUser(data['token'.toString()]);
-      this.storageService.saveCurrentUser(JSON.stringify(this.CurrentUser));
+      this.storageService.saveToken(data['token'.toString()]);
       this.loginStatus.next(this.isLoggedIn());
       return data;
     },
     err => {
       this.resetUser();
-      this.storageService.removeCurrentUser();
+      this.storageService.removeToken();
       this.loginStatus.next(false);
     }));
   }
@@ -64,8 +69,9 @@ export class AuthService {
 
   logout(): void{
     this.resetUser();
-    this.storageService.removeCurrentUser();
+    this.storageService.removeToken();
     this.loginStatus.next(false);
+    this.router.navigate(['/']);
   }
 
   private decodeToken(token: string){
@@ -75,16 +81,17 @@ export class AuthService {
   private updateUser(token: string): void{
     const tokenDecoded = this.decodeToken(token);
     const profile = (!!tokenDecoded.organization) ?
-      new UserProfile({isAdmin: tokenDecoded.is_admin, organization: tokenDecoded.organization}) : null;
+      new UserProfile({is_admin: tokenDecoded.is_admin, organization: tokenDecoded.organization_id}) : null;
     this.CurrentUser.updateLoginUser(
       {username: tokenDecoded.username,
       email: tokenDecoded.email,
       id: tokenDecoded.user_id,
       profile,
       token,
-      exp: tokenDecoded.exp}
+      exp: tokenDecoded.exp,
+      is_staff: tokenDecoded.is_staff}
     );
-    this.storageService.saveCurrentUser(JSON.stringify(this.CurrentUser));
+    this.storageService.saveToken(token);
   }
 
   private resetUser(): void{
@@ -92,7 +99,6 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean{
-    console.log(this.CurrentUser);
     return (!!this.CurrentUser.username) && this.CurrentUser.exp >= Date.now() / 1000;
   }
 
@@ -104,4 +110,7 @@ export class AuthService {
     return this.CurrentUser.token;
   }
 
+  getStaff(){
+    return this.CurrentUser.is_staff;
+  }
 }

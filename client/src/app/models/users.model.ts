@@ -12,6 +12,7 @@ interface ILoginUser {
     profile: UserProfile | null;
     token: string;
     exp: number;
+    is_staff: boolean;
 }
 
 export class User{
@@ -38,34 +39,36 @@ export class User{
 export class LoginUser extends User{
     exp: number|null;
     token: string | null;
+    is_staff: boolean;
     constructor(user?: ILoginUser){
         super(user);
         this.updateLoginUser(user);
     }
 
     updateLoginUser(user?: ILoginUser){
-        const {token, exp} = {token: '', exp: -1, ...user};
+        const {token, exp, is_staff} = {token: '', exp: -1, is_staff: false, ...user};
         super.updateUser(user);
         this.token = token;
         this.exp = exp;
+        this.is_staff = is_staff;
     }
 }
 
 export class UserProfile{
-    isAdmin: boolean;
-    organization: string;
+    is_admin: boolean;
+    organization: number;
     constructor(
-        profile: {isAdmin: boolean,
-        organization: string}
+        profile: {is_admin: boolean,
+        organization: number}
     ){
         this.update(profile);
     }
     update(
-        profile: {isAdmin: boolean,
-        organization: string}
+        profile: {is_admin: boolean,
+        organization: number| null}
     ){
-        const {isAdmin, organization} = {isAdmin: false, organization: '', ...profile};
-        this.isAdmin = isAdmin;
+        const {is_admin, organization} = {is_admin: false, organization: '', ...profile};
+        this.is_admin = is_admin;
         this.organization = organization;
     }
 }

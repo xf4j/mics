@@ -1,19 +1,24 @@
-import { Component, OnInit, OnDestroy, isDevMode } from '@angular/core';
+import { Component, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+
+
 import { AuthService } from '@core/services/auth.service';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { UserListComponent } from '@/users/components/user-list/user-list.component';
 
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.css']
 })
-export class SidenavComponent implements OnInit, OnDestroy {
-
+export class SidenavComponent implements OnDestroy, AfterViewInit {
+  @ViewChild(UserListComponent) child: UserListComponent;
   opened: boolean;
   isLoggedIn: boolean;
   subscription: Subscription;
   constructor(
-    private auth: AuthService
+    public auth: AuthService,
+    private router: Router
   ) {
     // initialized sidenav open status
     this.opened = this.auth.isLoggedIn();
@@ -21,10 +26,14 @@ export class SidenavComponent implements OnInit, OnDestroy {
     this.subscription = this.auth.loginStatus.subscribe( data => {
       this.isLoggedIn = (!!data);
       this.opened = this.isLoggedIn;
+      if (this.isLoggedIn) {this.child.getUserList(); }
     });
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit() {
+    if (this.isLoggedIn) {
+      this.child.getUserList();
+    }
   }
 
   ngOnDestroy(): void {
@@ -33,9 +42,10 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
   getToggle(){
     this.opened = this.isLoggedIn ? (!this.opened) : false;
-    if (isDevMode()) {
-      console.log(this.opened, this.isLoggedIn);
-    }
+  }
+
+  onAdd() {
+    // this.router.navigate(['dashboard']);
   }
 
 }

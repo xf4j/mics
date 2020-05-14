@@ -4,13 +4,16 @@
       <mat-icon>menu</mat-icon>
     </button>
     <span class="gap"></span>
-    <span class = 'gap'>App</span>
+    <span class = 'gap'><a routerLink="" button mat-flat-button color="primary" type="button">AppName</a></span>
     <span> Product</span>
     <span class = "filler"></span>
 
     <span *ngIf="isLoggedIn; else notLoggedInBlock" >
-      <mat-icon class="header-icon" [matMenuTriggerFor]="beforeMenu">account_circle</mat-icon>
-      <mat-menu #beforeMenu="matMenu">
+      <button mat-flat-button type="button" color="primary" [matMenuTriggerFor]="afterMenu">
+      <mat-icon class="header-icon">account_circle</mat-icon>
+        {{authService.getCurrentUser()}}
+      </button>
+      <mat-menu #afterMenu="matMenu" class="user-menu">
         <button mat-menu-item (click)="onLogout()">Logout</button>
       </mat-menu>
     </span>
@@ -21,7 +24,5 @@
         </button>
       </span>
     </ng-template>
-
-</mat-toolbar>
-
+  </mat-toolbar>
 </mat-toolbar-row>

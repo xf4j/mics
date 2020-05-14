@@ -1,18 +1,31 @@
-<app-header (toggleOuter)="getToggle()" [(isLoggedIn)] = "isLoggedIn"></app-header>
+<div class="container">
+
+  <app-header (toggleOuter)="getToggle()" [(isLoggedIn)] = "isLoggedIn"></app-header>
+
+  <mat-sidenav-container class="sidenav-container">
 
 
-<mat-sidenav-container class="navigation" class="sidenav-container">
-  <mat-sidenav #sidenav mode="side" [(opened)]="opened" class='sidenav'
-              [fixedInViewport]=false>
-    <div>
-      <app-user-list></app-user-list>
-    </div>
+    <mat-sidenav #sidenav mode="side" [(opened)]="opened" class='sidenav'
+                [fixedInViewport]=false>
+      <div class="sidenav-wrapper">
+        <a routerLink='dashboard' *ngIf="auth.getStaff()" button mat-icon-button class="create-group" (click)='onAdd()'><mat-icon>create_new_folder</mat-icon></a>
+        <app-user-list class="user-list"></app-user-list>
+        <a routerLink='dashboard'  button mat-icon-button class="create-group"><mat-icon>add</mat-icon></a>
+        <div class="filler"></div>
 
-  </mat-sidenav>
+        <div class="manage-list">
+          <button mat-button class="side-button">{{auth.getCurrentUser()}}</button>
+        </div>
+      </div>
 
-  <mat-sidenav-content>
-    <p>contetnt.</p>
-    <router-outlet></router-outlet>
-  </mat-sidenav-content>
+    </mat-sidenav>
 
-</mat-sidenav-container>
+
+    <mat-sidenav-content>
+      <p>contetnt.</p>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+
+
+  </mat-sidenav-container>
+</div>

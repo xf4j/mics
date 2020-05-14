@@ -1,22 +1,21 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { AuthService } from '@core/services/auth.service';
 import { MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms'
 
-// Todo: error notice when login request is refused
 @Component({
-  selector: 'app-header-login',
-  templateUrl: './header-login.component.html',
-  styleUrls: ['./header-login.component.css']
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
-export class HeaderLoginComponent implements OnInit {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loading = false;
   submitted = false;
 
   constructor(
     private authService: AuthService,
-    public dialogRef: MatDialogRef<HeaderLoginComponent>,
+    public dialogRef: MatDialogRef<LoginComponent>,
     private formBuilder: FormBuilder,
   ) {
   }
@@ -34,7 +33,6 @@ export class HeaderLoginComponent implements OnInit {
 
   login() {
     this.submitted = true;
-
     if (this.loginForm.invalid) {return; }
     // log in with authentication service
     this.loading = true;

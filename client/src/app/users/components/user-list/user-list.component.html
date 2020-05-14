@@ -1,14 +1,19 @@
-<button mat-button (click)="onButton()">Test</button>
+<mat-divider></mat-divider>
+<div *ngFor="let grp of organizationList| keyvalue">
+    <mat-expansion-panel [expanded]=true>
+      <mat-expansion-panel-header >
+        <mat-panel-title><mat-icon>folder</mat-icon>{{grp.value}}</mat-panel-title>
+      </mat-expansion-panel-header>
 
-<mat-expansion-panel>
-  <mat-expansion-panel-header>
-    <mat-panel-title>
-      Organization
-    </mat-panel-title>
-  </mat-expansion-panel-header>
+      <mat-list-item *ngFor="let user of userList[grp.key]">
+        <span>
+          <button mat-button class="user-list-button">           
+            <mat-icon mat-list-icon *ngIf="!user.profile || user.profile.is_admin">supervised_user_circle</mat-icon>
+            <mat-icon mat-list-icon *ngIf="user.profile && !user.profile.is_admin">perm_identity</mat-icon>
+            {{user.username}}</button>
+        </span>
+      </mat-list-item>
 
-  <mat-list-item *ngFor="let user of userList">
-    <mat-icon>supervisor_account</mat-icon>
-    <span>{{user.username}}</span>
-  </mat-list-item>
-</mat-expansion-panel>
+    </mat-expansion-panel>
+    <mat-divider></mat-divider>
+</div>

@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
         return true;
       }
 
-      this.router.navigate(['/user/login'], {queryParams: {returnUrl: state.url}});
+      this.router.navigate(['/'], {queryParams: {returnUrl: state.url}});
       return false;
   }
   canActivateChild(
@@ -27,5 +27,4 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return true;
   }
-  
 }

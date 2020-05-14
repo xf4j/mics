@@ -2,7 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { AuthService } from '@core/services/auth.service';
 
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { HeaderLoginComponent } from '../header-login/header-login.component';
+import { LoginComponent } from '@/users/components/login/login.component';
+
 
 
 @Component({
@@ -20,7 +21,7 @@ export class HeaderComponent implements OnInit {
   password: string;
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private dialog: MatDialog,
   ) {
     this.isLoggedIn = this.authService.isLoggedIn();
@@ -43,7 +44,7 @@ export class HeaderComponent implements OnInit {
     dialogConfig.autoFocus = true;
     dialogConfig.width = '400px';
     dialogConfig.panelClass = 'login-dialog';
-    const dialogRef = this.dialog.open(HeaderLoginComponent, dialogConfig);
+    const dialogRef = this.dialog.open(LoginComponent, dialogConfig);
 
     // status update
     dialogRef.afterClosed().subscribe();
