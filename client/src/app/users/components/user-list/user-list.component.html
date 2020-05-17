@@ -1,11 +1,11 @@
 <mat-divider></mat-divider>
-<div *ngFor="let grp of organizationList| keyvalue">
+<div *ngFor="let grp of userList| keyvalue">
     <mat-expansion-panel [expanded]=true>
       <mat-expansion-panel-header >
-        <mat-panel-title><mat-icon>folder</mat-icon>{{grp.value}}</mat-panel-title>
+        <mat-panel-title><mat-icon>folder</mat-icon>{{grp.key == 0 ? "staff" : organizationList[grp.key]}}</mat-panel-title>
       </mat-expansion-panel-header>
 
-      <mat-list-item *ngFor="let user of userList[grp.key]">
+      <mat-list-item *ngFor="let user of grp.value">
         <span>
           <button mat-button class="user-list-button">           
             <mat-icon mat-list-icon *ngIf="!user.profile || user.profile.is_admin">supervised_user_circle</mat-icon>

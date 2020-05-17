@@ -1,8 +1,7 @@
 import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { UserService } from '../../services/user.service';
 
-import { User, Organization } from '@/models/users.model';
-import { merge } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 
 
@@ -13,52 +12,40 @@ import { merge } from 'rxjs';
 })
 export class UserListComponent implements OnInit {
 
-  public userList;
+  public userList = {};
   public organizationList = {};
+  subscription: Subscription;
   @Input() opened: boolean;
 
   constructor(
     private userService: UserService
-  ) { }
+  ) {
+    this.subscription = this.userService.updateStatus.subscribe(
+      data => {
+        if (!!data) {
+          this.updateUser();
+        }});
+  }
 
   ngOnInit(): void {
   }
 
 
   getUserList() {
-    const merged = merge(this.userService.getUser(), this.userService.getOrganization());
-    merged.subscribe(
-      data => {
-      },
-      null,
-      // complete subscription
-      () => {
-        this.userList = this.mergeUserAndOrganization(this.userService.userList, this.userService.orgList);
-       }
-    );
+    this.userService.getUserandOrganization().subscribe(() => {
+      const {userList, organizationList} = { userList: {}, organizationList: [],
+           ...this.userService.mergeUserAndOrganization()};
+      this.userList = userList;
+      this.organizationList = organizationList;
+    });
   }
 
-  mergeUserAndOrganization(userList: User[], orgList: Organization[]) {
-    let array = {};
-    for (const user of userList) {
-      if ((!!user.profile) && array.hasOwnProperty(user.profile.organization)) {
-        array[user.profile.organization].push(user);
-      }
-      else if ((!!user.profile) && !array.hasOwnProperty(user.profile.organization)) {
-        array[user.profile.organization] = [user];
-      }
-      else if (!user.profile && array.hasOwnProperty(0)) {
-        array[0].push(user);
-      }
-      else if (!user.profile && !array.hasOwnProperty(0)) {
-        array[0] = [user];
-        this.organizationList[0] = 'staff';
-      }
-    }
-    for (const org of orgList) {
-      this.organizationList[org.id] = org.name;
-    }
-    return array;
+  updateUser() {
+    // const {userList} = { userList: {}, ...this.userService.mergeUserAndOrganization()};
+    const {userList, organizationList} = { userList: {}, organizationList: [],
+           ...this.userService.mergeUserAndOrganization()};
+    this.userList = userList;
+    this.organizationList = organizationList;
   }
 
 }

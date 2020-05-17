@@ -1,9 +1,12 @@
-export interface IUser {
+export interface IPostUser {
     username: string;
     email: string;
-    id: number;
-    profile: UserProfile | null;
     is_staff: boolean;
+    profile?: UserProfile | null;
+}
+
+export interface IGetUser extends IPostUser {
+    id: number;
 }
 
 interface ILoginUser {
@@ -23,12 +26,12 @@ export class User{
     profile: UserProfile| null;
     is_staff: boolean;
 
-    constructor( user?: IUser
+    constructor( user?: IGetUser
     ){
         this.updateUser(user);
     }
 
-    updateUser(user?: IUser){
+    updateUser(user?: IGetUser){
         const {username, email, id, profile, is_staff} = {username: '', email: '', id: -1, is_staff: false, profile: null, ...user};
         this.username = username;
         this.email = email;

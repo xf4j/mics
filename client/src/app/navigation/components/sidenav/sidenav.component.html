@@ -8,13 +8,23 @@
     <mat-sidenav #sidenav mode="side" [(opened)]="opened" class='sidenav'
                 [fixedInViewport]=false>
       <div class="sidenav-wrapper">
-        <a routerLink='dashboard' *ngIf="auth.getStaff()" button mat-icon-button class="create-group" (click)='onAdd()'><mat-icon>create_new_folder</mat-icon></a>
+        
         <app-user-list class="user-list"></app-user-list>
-        <a routerLink='user-add'  button mat-icon-button class="create-group"><mat-icon>add</mat-icon></a>
+        <a routerLink='/dashboard/add-organization' *ngIf="auth.getStaff()" button mat-button class="create-group" (click)='onAdd()'>
+          <mat-icon>create_new_folder</mat-icon>Add organzation
+        </a>
+        <a routerLink='user-add'  button mat-button class="create-group">
+          <mat-icon>add</mat-icon>Add user
+        </a>
         <div class="filler"></div>
 
         <div class="manage-list">
-          <button mat-button class="side-button">{{auth.getCurrentUser()}}</button>
+          <a button mat-stroked-button class="side-button" color="primary">organization</a>
+          <br>
+          <a routerLink="/dashboard/user" button mat-stroked-button class="side-button" color="primary">user</a>
+          <br>
+          
+          <!-- Current user: <button mat-button class="side-button">{{auth.getCurrentUser()}}</button> -->
         </div>
       </div>
 
@@ -22,7 +32,6 @@
 
 
     <mat-sidenav-content>
-      <p>contetnt.</p>
       <router-outlet></router-outlet>
     </mat-sidenav-content>
 

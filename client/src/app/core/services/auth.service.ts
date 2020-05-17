@@ -111,6 +111,6 @@ export class AuthService {
   }
 
   getStaff(){
-    return this.CurrentUser.is_staff;
+    return this.CurrentUser.is_staff || !this.CurrentUser.profile;
   }
 }

@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from rest_framework  import status
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter
 
 from .serializers import UserSerializer
 from .permissions import IsOrganizationAdminUser
@@ -25,6 +27,10 @@ class UserViewSet(viewsets.ModelViewSet):
         'partial_update': (permissions.IsAuthenticated,),
     }
 
+    filter_backends = (DjangoFilterBackend, OrderingFilter,)
+    filterset_fields = ['id', 'username']
+    ordering_fields = ['id', 'username',]
+
     def get_permissions(self):
         '''
         user permissions
@@ -45,11 +51,16 @@ class UserViewSet(viewsets.ModelViewSet):
         '''
         Custom list user method
         '''
-        queryset = self.get_queryset()
+        queryset = self.filter_queryset(self.get_queryset())
 
         if not request.user.is_staff:
             #organization = request.user.profile.organization
             queryset = queryset.filter(profile__organization=request.user.profile.organization)
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
@@ -72,16 +83,17 @@ class UserViewSet(viewsets.ModelViewSet):
         '''
         Custom create user method
         '''
-
+        organization = None
         # formatting request data
         if 'profile' in request.data:
-            request.data['profile.organization'] = request.data['profile']['organization']
-        organization =  Organization.objects.get(pk=request.data['profile.organization'])
+            if request.data['profile'] is not None: 
+                request.data['profile.organization'] = request.data['profile']['organization']
+                organization =  Organization.objects.get(pk=request.data['profile.organization'])
         
         # permission and non existing exception
         if not request.user.is_staff and not request.user.profile.organization == organization:
             return Response({'detail': 'You do not have access to this organization.'}, status=status.HTTP_403_FORBIDDEN)
-        if not organization:
+        if not organization and 'profile.organization' in request.data:
             return Response({'detail': 'Organization not found.'}, status=status.HTTP_404_NOT_FOUND)
 
         serializer = self.get_serializer(data=request.data, context={'queryset': organization})

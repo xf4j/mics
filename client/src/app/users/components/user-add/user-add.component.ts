@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidationErrors } from '@angular/forms';
 import { AuthService } from '@/core/services/auth.service';
-import { HttpClient } from '@angular/common/http';
-import { ServerService } from '@/core/services/server.service';
+import { UserService } from '@/users/services/user.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -12,40 +12,60 @@ import { ServerService } from '@/core/services/server.service';
 })
 export class UserAddComponent implements OnInit {
   addForm: FormGroup;
-  isStaff = false;
+  isStaff = new FormControl(false);
+  isAdmin = new FormControl(false);
+  submitted = false;
+  orgList = {};
 
   constructor(
     private auth: AuthService,
-    private http: HttpClient,
     private formBuilder: FormBuilder,
-    private server: ServerService
-  ) { }
+    public userService: UserService,
+    private router: Router
+  ) {
+  }
 
   ngOnInit(): void {
     this.addForm = this.formBuilder.group({
       username: ['', Validators.required],
       password1: ['', Validators.required],
-      password2: ['', Validators.required],
-      email: ['', Validators.required],
-      is_staff: [false, Validators.required],
-      is_admin: [false ],
+      password2: ['', [this.matchPassword('password1')]],
+      email: ['', [Validators.required]],
       organization: [''],
     });
+  }
+
+  matchPassword( matchTo: string): (AbstractControl) => ValidationErrors | null {
+    return (control: AbstractControl): ValidationErrors | null => {
+      return !!control.parent &&
+        !!control.parent.value &&
+        control.value === control.parent.controls[matchTo].value
+        ? null
+        : {isMatch: false};
+    };
   }
 
   get f() { return this.addForm.controls; }
 
   onSubmit() {
+    this.submitted = true;
     if (this.addForm.invalid) {return; }
-    const userProfile = this.f.is_staff && this.auth.getStaff() ?
-    null : {is_admin: this.f.is_admin.value, organization: this.f.organization.value};
-    this.http.post(this.server.usersBaseAPI(), {
+    const userProfile = this.isStaff.value && this.auth.getStaff() ?
+    null : {is_admin: this.isAdmin.value, organization: this.f.organization.value};
+    const request = {
       username: this.f.username.value,
-      password: this.f.password.value,
-      email: this.f.password.value,
-      is_staff: this.f.is_staff.value,
-      profile: userProfile
-    });
+      password: this.f.password1.value,
+      email: this.f.email.value,
+      is_staff: this.isStaff.value,
+    };
+    if (!!userProfile) {
+      request['profile'.toString()] = userProfile;
+    }
+    this.userService.addUser(request).subscribe(
+      data => {
+        console.log(data);
+        this.router.navigate(['/']);
+      });
   }
 
 }

@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { DashboardAddOrganizationComponent } from '@/dashboard/components/dashboard-add-organization/dashboard-add-organization.component';
 import { AuthGuard } from '@/core/guards/auth.guard';
+import { ManageUserComponent } from './components/manage-user/manage-user.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 
 
@@ -10,8 +12,25 @@ import { AuthGuard } from '@/core/guards/auth.guard';
 const routes: Routes = [
   {
     path: 'dashboard',
-    component: DashboardAddOrganizationComponent,
-    canActivate: [AuthGuard]
+    component: DashboardComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: '',
+        canActivate: [AuthGuard],
+        children: [
+          {
+            path: 'user',
+            component: ManageUserComponent
+          },
+          {
+            path: 'add-organization',
+            component: DashboardAddOrganizationComponent
+          }
+
+        ]
+      }
+    ]
   }
 ];
 

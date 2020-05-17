@@ -5,7 +5,6 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { LoginComponent } from '@/users/components/login/login.component';
 
 
-
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -43,6 +42,7 @@ export class HeaderComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = '400px';
+    dialogConfig.minWidth = '300px';
     dialogConfig.panelClass = 'login-dialog';
     const dialogRef = this.dialog.open(LoginComponent, dialogConfig);
 
@@ -57,6 +57,10 @@ export class HeaderComponent implements OnInit {
       this.username = '';
       this.isLoggedIn = false;
     }
+  }
+
+  onSetting() {
+    return ;
   }
 
 }

@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/home/yanjun/miniconda2/envs/django/bin/python",
+    "python.pythonPath": "C:\\Users\\Yanjun\\miniconda3\\envs\\django\\python.exe",
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true
 }

@@ -20,24 +20,28 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        profile_data = validated_data.pop('profile')
-        user = User(
-            email=validated_data['email'],
-            username=validated_data['username']
-        )
-        user.set_password(validated_data['password'])
-        user.save()
-        Profile.objects.create(user = user, **profile_data)
+
+        if 'profile' in validated_data:
+            profile_data = validated_data.pop('profile')
+            user = User.objects.create_user(**validated_data)
+            Profile.objects.create(user=user, **profile_data)
+        else:
+            user = User.objects.create_superuser(**validated_data)
         return user
 
     def update(self, user, validated_data):
-        user.email = validated_data.get('email', user.email)
-        user.username = validated_data.get('username', user.username)
-        user.set_password(validated_data.get('password'))
+        if 'email' in validated_data:
+            user.email = validated_data.get('email', user.email)
+        if 'username' in validated_data:
+            user.username = validated_data.get('username', user.username)
+        if 'password' in validated_data:
+            user.set_password(validated_data.get('password'))
         user.save()
+        if not hasattr(user, 'profile'):
+            return user
 
         profile = Profile.objects.get(user = user)
-        if 'profile' in validated_data:
+        if 'profile' in validated_data and validated_data['profile'] is not None:
             profile_data = validated_data.pop('profile')
             profile.is_admin = profile_data.get('is_admin', profile.is_admin)
             profile.organization = profile_data.get('organization', profile.organization)
