@@ -1,0 +1,34 @@
+<div class="container">
+
+  <app-header (toggleOuter)="getToggle()" [(isLoggedIn)] = "isLoggedIn"></app-header>
+
+  <mat-sidenav-container class="sidenav-container">
+
+
+    <mat-sidenav #sidenav mode="side" [(opened)]="opened" class='sidenav'
+                [fixedInViewport]=false>
+      <div class="sidenav-wrapper">
+        
+        <app-user-list class="user-list"></app-user-list>
+
+        <div class="filler"></div>
+
+        <div class="manage-list">
+          <a routerLink="/dashboard/organization" button mat-stroked-button class="side-button" color="primary" *ngIf="auth.getAdmin()">organization</a>
+          <br>
+          <a routerLink="/dashboard/user" button mat-stroked-button class="side-button" color="primary">user</a>
+          <br>
+          
+        </div>
+      </div>
+
+    </mat-sidenav>
+
+
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+
+
+  </mat-sidenav-container>
+</div>

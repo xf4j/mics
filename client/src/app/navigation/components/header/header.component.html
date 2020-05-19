@@ -1,0 +1,29 @@
+<mat-toolbar-row>
+  <mat-toolbar color='primary' class="fixed-header">
+    <button mat-icon-button (click)="onToggleClick()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="gap"></span>
+    <span class = 'gap'><a routerLink="" button mat-flat-button color="primary" type="button">AppName</a></span>
+    <span> Product</span>
+    <span class = "filler"></span>
+
+    <span *ngIf="isLoggedIn; else notLoggedInBlock" >
+      <button mat-flat-button type="button" color="primary" [matMenuTriggerFor]="userMenu">
+      <mat-icon class="header-icon">account_circle</mat-icon>
+        {{authService.getCurrentUser()}}
+      </button>
+      <mat-menu #userMenu="matMenu" class="user-menu">
+        <button mat-menu-item (click)="onLogout()" class="user-menu-item">Logout</button>
+        <button mat-menu-item (click)="onSetting()" class="user-menu-item">Settings</button>
+      </mat-menu>
+    </span>
+    <ng-template #notLoggedInBlock>
+      <span>
+        <button mat-stroked-button (click)="onLogin()" class="button">
+          Login
+        </button>
+      </span>
+    </ng-template>
+  </mat-toolbar>
+</mat-toolbar-row>

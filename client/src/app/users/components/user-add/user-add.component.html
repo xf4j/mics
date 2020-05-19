@@ -1,0 +1,51 @@
+<div class="container">
+  <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+    <h2 mat-title class="title" style="text-align: center;">Create user</h2>
+    
+    <mat-form-field class="create-form"  appearance="fill">
+      <mat-label for="username">Username</mat-label>
+      <input matInput formControlName="username">
+    </mat-form-field>
+    <mat-form-field class="create-form" appearance="fill">
+      <mat-label for="password1">Password</mat-label>
+      <input matInput formControlName="password1" type="password">
+    </mat-form-field>
+
+    <mat-form-field class="create-form" appearance="fill">
+      <mat-label for="password2">Re-enter password</mat-label>
+      <input matInput formControlName="password2" type="password">
+      <mat-error *ngIf="!f.password2.errors?.isMatch.value">Password not the same.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="create-form" appearance="fill">
+      <mat-label for="email">Email</mat-label>
+      <input matInput formControlName="email" [email]=true>
+    </mat-form-field>
+
+
+    <div class="checkbox">
+      <mat-checkbox [formControl]="isStaff"> <mat-label>Is staff</mat-label></mat-checkbox>
+    </div>
+    <br>
+
+
+    <div [hidden]="isStaff.value" style="width: 100%;">
+      <mat-form-field  class="create-form"appearance="fill" >
+        <mat-label>Organization</mat-label>
+        <mat-select [required]="!isStaff.value" formControlName="organization">
+          <div *ngFor="let org of userService.getOrganizationList()|keyvalue">
+            <mat-option [value]="org.key">
+              {{org.value}}
+            </mat-option>
+           </div>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div [hidden]="isStaff.value" class="checkbox">
+      <mat-checkbox *ngIf="!isStaff.value" [formControl]="isAdmin"> <mat-label>Is admin</mat-label> </mat-checkbox>
+    </div>
+    <button mat-flat-button class="submit-button" type="button" color="primary" (click)="onSubmit()" [disabled]="addForm.invalid">submit</button>
+
+  </form>
+</div>

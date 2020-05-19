@@ -1,0 +1,52 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.sidenav {
+    align-items: center;
+    width: 15%;
+    background-color: white;
+    flex-direction: column;
+}
+
+.sidenav-container {
+    flex: 1;
+}
+
+.create-group {
+    margin: auto;
+    width: 90%;
+    text-align: right;
+}
+
+.filler {
+    flex-grow: 1;
+}
+
+
+.manage-list {
+    padding-bottom: 14px;
+}
+
+
+.side-button {
+    display: block;
+    width: 80%;
+    cursor: pointer;
+    text-align: center;
+    font-size: 16px;
+    /* /* margin: auto; */
+    margin: auto;
+}
+
+.sidenav-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }

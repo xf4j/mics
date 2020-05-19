@@ -1,0 +1,13 @@
+.list-item{
+    height: 40px;
+}
+
+
+.user-list-button {
+    width: 100%;
+    text-align: left;
+}
+
+.create {
+    margin-left: 1em;
+}

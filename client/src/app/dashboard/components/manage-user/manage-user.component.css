@@ -1,0 +1,92 @@
+.user-table {
+    width: 100%;
+}
+
+.container {
+    width: 85%;
+    margin: auto;
+}
+
+  
+tr.detail-row {
+  height: 0;
+}
+
+tr.element-row:not(.expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.element-row:not(.expanded-row):active {
+  background: #efefef;
+}
+
+.element-row td {
+  border-bottom-width: 0;
+}
+
+.element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.element-description {
+  padding: 16px;
+  width: 100%;
+}
+
+.mat-column-id {
+  /* flex: 0 0 30% !important; */
+  width: 10% !important;
+}
+
+.mat-column-username {
+  width: 15% !important;
+  text-align: center;
+}
+
+.mat-column-email {
+  width: 35% !important;
+  text-align: center;
+}
+
+.mat-column-authority {
+  width: 14% !important;
+}
+
+.mat-column-organization {
+  width: 14% !important;
+}
+
+.mat-column-actions {
+  width: 12% !important;
+  text-align: center;
+}
+
+.edit-form {
+  display: block;
+}
+
+.edit-form-email {
+  width: 43%;
+  text-align: center;
+}
+
+.edit-form-authority {
+  width: 18% ;
+}
+
+.edit-form-organization {
+  width: 18%;
+}
+
+.edit-form-button {
+  width: 10%;
+  float: right;
+}
+
+.create-user-button {
+  /* margin: auto;
+  text-align: right */
+  float: right;
+}
+

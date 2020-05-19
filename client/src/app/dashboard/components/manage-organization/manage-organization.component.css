@@ -1,0 +1,13 @@
+.organization-container {
+    width: 600px;
+    min-width: 400px;
+    margin: auto;
+}
+
+.expansion-panel-detail {
+    width: 100%;
+}
+
+.organization-field {
+    width: 100%;
+}
