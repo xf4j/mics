@@ -40,7 +40,6 @@ export class DashboardAddOrganizationComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     if (this.addForm.invalid) {return; }
-    console.log('.');
     this.http.post(this.server.organizationsBaseAPI(), {
       name: this.f.name.value,
       address_line1: this.f.address_line1.value,

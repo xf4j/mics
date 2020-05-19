@@ -86,7 +86,6 @@ export class ManageUserComponent implements AfterViewInit, OnDestroy{
   }
 
   onDelete(userPk: number) {
-    console.log(userPk);
     this.userService.deleteUser(userPk).subscribe();
   }
 
@@ -115,7 +114,6 @@ export class ManageUserComponent implements AfterViewInit, OnDestroy{
   getClient(sort: string, order: string): Observable<User []> {
     const direction = order === 'asc' ? '' : '-';
     const requestUrl = `?ordering=${direction}${sort}`;
-    console.log(requestUrl);
     return this.userService.getUser(requestUrl);
   }
 

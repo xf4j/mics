@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class ServerService {
 
-  private serverAPI = 'http://127.0.0.1:8000/api/';
+  private serverAPI = 'api/';
 
   usersBaseAPI(): string{
     return this.serverAPI + 'users/';

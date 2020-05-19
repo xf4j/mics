@@ -40,11 +40,11 @@ INSTALLED_APPS = [
     'django_filters',
     'users.apps.UsersConfig',
     'organizations.apps.OrganizationsConfig',
-    'corsheaders', # cross domain support
+    # 'corsheaders', # cross domain support
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+    # 'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -55,7 +55,7 @@ MIDDLEWARE = [
 ]
 
 # support cross-domain of all address
-CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'server.urls'
 

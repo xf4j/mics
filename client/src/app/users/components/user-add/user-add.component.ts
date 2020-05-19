@@ -63,7 +63,6 @@ export class UserAddComponent implements OnInit {
     }
     this.userService.addUser(request).subscribe(
       data => {
-        console.log(data);
         this.router.navigate(['/']);
       });
   }

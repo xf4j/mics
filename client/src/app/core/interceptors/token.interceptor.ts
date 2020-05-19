@@ -31,7 +31,7 @@ export class TokenInterceptor implements HttpInterceptor {
         'Content-Type': 'application/json'
       }});
     }
-    if (isDevMode) {
+    if (isDevMode()) {
       console.log(request);
     }
 

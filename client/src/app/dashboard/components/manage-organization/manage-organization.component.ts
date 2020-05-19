@@ -39,7 +39,6 @@ export class ManageOrganizationComponent implements OnInit {
   }
 
   onUpdate(id, index) {
-    console.log(id);
     const request = {address_line1: this.editForm[index].controls.address_line1.value,
                      address_line2: this.editForm[index].controls.address_line2.value,
                      address_city: this.editForm[index].controls.address_city.value,
