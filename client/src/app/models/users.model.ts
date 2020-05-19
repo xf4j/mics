@@ -91,3 +91,12 @@ export class Organization{
         this.name = name;
     }
 }
+
+export interface IOrgDetail extends IOrgList{
+    address_city: string;
+    address_country: string;
+    address_line1: string;
+    address_line2: string;
+    address_state: string;
+    phone: string;
+}

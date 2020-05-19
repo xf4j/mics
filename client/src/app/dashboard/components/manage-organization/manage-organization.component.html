@@ -1,0 +1,35 @@
+
+<div class="organization-container" >
+  <div  *ngFor="let organization of userService.getOrganizationList() | keyvalue; let i = index">
+    <mat-expansion-panel [expanded]=true>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h2>{{organization.value}}</h2>
+        </mat-panel-title>
+        <mat-panel-description>
+          {{organization.key}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <form (ngSubmit)="onUpdate(organization.key, i)" [formGroup]="editForm[i]" *ngIf="!!editForm[i]">
+        <div class="expansion-panel-detail" *ngFor="let element of organizationFields">
+          <mat-form-field class="organization-field">
+            <mat-label>{{element}}</mat-label>
+            <input matInput formControlName="{{element}}">
+          </mat-form-field>
+          <br>
+        </div>
+        <button mat-flat-button color="primary" style="float: right;">update</button>
+      </form>
+
+    </mat-expansion-panel>
+
+    <br><br>
+
+  </div>
+
+  <a routerLink='/dashboard/add-organization' *ngIf="auth.getStaff()" button mat-button class="create-group"
+  style="float: right;">
+  <mat-icon>create_new_folder</mat-icon>Add organzation
+  </a>
+
+</div>

@@ -1,4 +1,4 @@
-/* .user-table {
+.user-table {
     width: 100%;
 }
 
@@ -7,76 +7,86 @@
     margin: auto;
 }
 
-.mat-column-id {
-    flex: 0 0 5%;
-}
-
-.mat-column-username {
-    flex: 0 0 20%;
+  
+tr.detail-row {
+  height: 0;
 }
 
 tr.element-row:not(.expanded-row):hover {
-    background: whitesmoke;
+  background: whitesmoke;
 }
 
 tr.element-row:not(.expanded-row):active {
-    background: #efefef;
+  background: #efefef;
 }
 
 .element-row td {
-    border-bottom-width: 0;
+  border-bottom-width: 0;
 }
 
 .element-detail {
-    overflow: hidden;
-    display: flex;
-} */
+  overflow: hidden;
+  display: flex;
+}
 
-table {
-    width: 100%;
-  }
-  
-  tr.example-detail-row {
-    height: 0;
-  }
-  
-  tr.example-element-row:not(.example-expanded-row):hover {
-    background: whitesmoke;
-  }
-  
-  tr.example-element-row:not(.example-expanded-row):active {
-    background: #efefef;
-  }
-  
-  .example-element-row td {
-    border-bottom-width: 0;
-  }
-  
-  .example-element-detail {
-    overflow: hidden;
-    display: flex;
-  }
-  
-  .example-element-diagram {
-    min-width: 80px;
-    border: 2px solid black;
-    padding: 8px;
-    font-weight: lighter;
-    margin: 8px 0;
-    height: 104px;
-  }
-  
-  .example-element-symbol {
-    font-weight: bold;
-    font-size: 40px;
-    line-height: normal;
-  }
-  
-  .example-element-description {
-    padding: 16px;
-  }
-  
-  .example-element-description-attribution {
-    opacity: 0.5;
-  }
+.element-description {
+  padding: 16px;
+  width: 100%;
+}
+
+.mat-column-id {
+  /* flex: 0 0 30% !important; */
+  width: 10% !important;
+}
+
+.mat-column-username {
+  width: 15% !important;
+  text-align: center;
+}
+
+.mat-column-email {
+  width: 35% !important;
+  text-align: center;
+}
+
+.mat-column-authority {
+  width: 14% !important;
+}
+
+.mat-column-organization {
+  width: 14% !important;
+}
+
+.mat-column-actions {
+  width: 12% !important;
+  text-align: center;
+}
+
+.edit-form {
+  display: block;
+}
+
+.edit-form-email {
+  width: 43%;
+  text-align: center;
+}
+
+.edit-form-authority {
+  width: 18% ;
+}
+
+.edit-form-organization {
+  width: 18%;
+}
+
+.edit-form-button {
+  width: 10%;
+  float: right;
+}
+
+.create-user-button {
+  /* margin: auto;
+  text-align: right */
+  float: right;
+}
 

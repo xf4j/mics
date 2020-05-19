@@ -3,7 +3,7 @@ import { map } from 'rxjs/operators';
 
 import { ServerService } from '@core/services/server.service';
 import { HttpClient } from '@angular/common/http';
-import { User, IGetUser, Organization, IOrgList, IPostUser } from '@/models/users.model';
+import { User, IGetUser, Organization, IOrgList, IPostUser, IOrgDetail } from '@/models/users.model';
 import { Subject, forkJoin, Observable, concat } from 'rxjs';
 
 @Injectable({
@@ -14,6 +14,7 @@ export class UserService {
   initialized = false;
   public userList: User[] = [];
   public orgList = {};
+  public orgDetail = [];
   constructor(
     private server: ServerService,
     private http: HttpClient
@@ -51,7 +52,15 @@ export class UserService {
         this.updateStatus.next(true);
         return data;
       }));
-}
+  }
+
+  patchUser(userPk: number, request) {
+    return concat(this.http.patch(this.server.usersBaseAPI() + userPk + '/', request),
+                  this.getUser()).pipe(map( data => {
+                    this.updateStatus.next(true);
+                    return data;
+                  }));
+  }
 
   getOrganization() {
     return this.http.get(this.server.organizationsBaseAPI()).pipe(map(
@@ -63,6 +72,21 @@ export class UserService {
         return data;
       }
     ));
+  }
+
+  getOrganizationDetail() {
+    return this.http.get(this.server.organizationsBaseAPI()).pipe(map(
+      (data: IOrgDetail[]) => {
+        for (const detail of data) {
+          this.orgDetail.push(detail);
+        }
+        return this.orgDetail;
+      }
+    ));
+  }
+
+  patchOrganizationDetail(id: number, request) {
+    return this.http.patch(this.server.organizationsBaseAPI() + id + '/', request);
   }
 
   getUserandOrganization() {

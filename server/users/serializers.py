@@ -48,6 +48,6 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         else:
             profile.is_admin = validated_data.get('is_admin', profile.is_admin)
             profile.organization = validated_data.get('organization', profile.organization)
-
+        profile.save()
         return user
 

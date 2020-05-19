@@ -9,6 +9,8 @@ import { User } from '@/models/users.model';
 import { UserService } from '@/users/services/user.service';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { ServerService } from '@/core/services/server.service';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { AuthService } from '@/core/services/auth.service';
 
 @Component({
   selector: 'app-manage-user',
@@ -30,10 +32,14 @@ export class ManageUserComponent implements AfterViewInit, OnDestroy{
   isLoadingResult = true;
   expandedElement: TableRow | null;
 
+  editForm: FormGroup;
+
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     public userService: UserService,
+    private formBuilder: FormBuilder,
+    public auth: AuthService,
   ) {
     this.updateTable();
     this.subscription = this.userService.updateStatus.subscribe(
@@ -42,6 +48,12 @@ export class ManageUserComponent implements AfterViewInit, OnDestroy{
           this.updateTable();
         }
       });
+
+    this.editForm = this.formBuilder.group({
+      emailFormControl: ['', Validators.required],
+      authorityFormControl: ['', Validators.required],
+      organizationFormControl: ['', Validators.required],
+    });
   }
 
   ngAfterViewInit() {
@@ -62,6 +74,8 @@ export class ManageUserComponent implements AfterViewInit, OnDestroy{
         data => this.data = data);
   }
 
+  get f() { return this.editForm.controls; }
+
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
@@ -77,9 +91,26 @@ export class ManageUserComponent implements AfterViewInit, OnDestroy{
   }
 
   onEdit(element) {
-    console.log(element);
-    this.expandedElement = this.expandedElement === element ? null : element;
+    if (element.username === this.auth.getCurrentUser()  || this.auth.getAdmin()) {
+      this.f.emailFormControl.setValue(element.email);
+      this.f.authorityFormControl.setValue(element.authority);
+      this.f.organizationFormControl.setValue(`${element.organization}`);
+      this.expandedElement = this.expandedElement === element ? null : element;
+    }
   }
+
+  onSubmit(element) {
+    const profile = this.f.authorityFormControl.value === 'staff' ? null :
+                    {is_admin: this.f.authorityFormControl.value === 'admin' ? true : false,
+                    organization: this.f.organizationFormControl.value};
+    const request = {
+      email : this.f.emailFormControl.value,
+      profile};
+    this.userService.patchUser(element.id, request).subscribe(data => {
+      this.expandedElement = null;
+    });
+  }
+
 
   getClient(sort: string, order: string): Observable<User []> {
     const direction = order === 'asc' ? '' : '-';

@@ -113,4 +113,9 @@ export class AuthService {
   getStaff(){
     return this.CurrentUser.is_staff || !this.CurrentUser.profile;
   }
+
+  getAdmin() {
+    const bool = (!!this.CurrentUser.profile) ? this.CurrentUser.profile.is_admin : null;
+    return Boolean(this.getStaff() || bool);
+  }
 }

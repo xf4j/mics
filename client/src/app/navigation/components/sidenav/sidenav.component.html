@@ -10,21 +10,15 @@
       <div class="sidenav-wrapper">
         
         <app-user-list class="user-list"></app-user-list>
-        <a routerLink='/dashboard/add-organization' *ngIf="auth.getStaff()" button mat-button class="create-group" (click)='onAdd()'>
-          <mat-icon>create_new_folder</mat-icon>Add organzation
-        </a>
-        <a routerLink='user-add'  button mat-button class="create-group">
-          <mat-icon>add</mat-icon>Add user
-        </a>
+
         <div class="filler"></div>
 
         <div class="manage-list">
-          <a button mat-stroked-button class="side-button" color="primary">organization</a>
+          <a routerLink="/dashboard/organization" button mat-stroked-button class="side-button" color="primary" *ngIf="auth.getAdmin()">organization</a>
           <br>
           <a routerLink="/dashboard/user" button mat-stroked-button class="side-button" color="primary">user</a>
           <br>
           
-          <!-- Current user: <button mat-button class="side-button">{{auth.getCurrentUser()}}</button> -->
         </div>
       </div>
 

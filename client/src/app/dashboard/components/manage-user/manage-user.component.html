@@ -37,78 +37,69 @@
 
     <ng-container matColumnDef="expandedDetail">
       <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
-        <div class="example-element-detail"
+        <div class="element-detail"
             [@detailExpand]="element==expandedElement?'expanded':'collapsed'">
-            <div class="example-element-description">
-            detail.
+            <div class="element-description">
+
+              <div style="width: 27%; float: left;"></div>
+              <div style="width: 73%; float: right;">
+                <form class="edit-form" [formGroup]="editForm" (ngSubmit)="onSubmit(element)">
+                  <mat-form-field class="edit-form-email">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="emailFormControl" type="email">
+                  </mat-form-field>
+                  &nbsp;&nbsp;&nbsp;
+                  <mat-form-field class="edit-form-authority">
+                    <mat-label>authority</mat-label>
+                    <mat-select formControlName="authorityFormControl">
+                      <mat-option [value]="'staff'" *ngIf="auth.getStaff()">
+                        staff
+                      </mat-option>
+                      <mat-option [value]="'admin'" *ngIf="auth.getAdmin()">
+                        admin
+                      </mat-option>
+                      <mat-option [value]="'user'">
+                        user
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  &nbsp;&nbsp;&nbsp;
+                  <span [hidden]="f.authorityFormControl.value=='staff'">
+                    <mat-form-field class="edit-form-organization">
+                      <mat-label>organization</mat-label>
+                      <mat-select formControlName="organizationFormControl">
+                        <mat-option *ngFor="let organization of userService.getOrganizationList() | keyvalue" [value] = "organization.key">
+                          {{organization.value}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </span>
+                  &nbsp;
+                  <button mat-flat-button color="primary" class="edit-form-button">submit</button>
+                  &nbsp;
+                </form>
+              </div>
+
             </div>
         </div>
-        </td>
-    </ng-container>
+      </td>
 
+    </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let element; columns: displayedColumns;"
-        class="example-element-row"
-        [class.example-expanded-row]="expandedElement === element"
-        (click)="expandedElement = expandedElement === element ? null : element">
+        class="element-row"
+        [class.expanded-row]="expandedElement === element">
     </tr>
-    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
   </table>
 
+  <br>
+  <a routerLink='/user-add'  button mat-button class="create-user-button">
+    <mat-icon>add</mat-icon>Add user
+  </a>
 
-  <!-- <table mat-table
-       [dataSource]="data" multiTemplateDataRows
-       class="mat-elevation-z8">
-       <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef>id</th>
-        <td mat-cell *matCellDef="let element">{{element.id}}</td>
-      </ng-container> -->
-  
-      <!-- <ng-container matColumnDef="username">
-        <th mat-header-cell *matHeaderCellDef>username</th>
-        <td mat-cell *matCellDef="let element">{{element.username}}</td>
-      </ng-container>
-  
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef>email</th>
-        <td mat-cell *matCellDef="let element">{{element.email}}</td>
-      </ng-container>
-  
-      <ng-container matColumnDef="authority">
-        <th mat-header-cell *matHeaderCellDef>authority</th>
-        <td mat-cell *matCellDef="let element">{{element.authority}}</td>
-      </ng-container>
-  
-      <ng-container matColumnDef="organization">
-        <th mat-header-cell *matHeaderCellDef>organization</th>
-        <td mat-cell *matCellDef="let element">{{element.organization? userService.orgList[element.organization]: null}}</td>
-      </ng-container>
-  
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>actions</th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-icon-button color="primary" type="button" (click)="onEdit(element.id)"><mat-icon>edit</mat-icon> </button>
-          <button mat-icon-button color="primary" (click)="onDelete(element.id)"><mat-icon>delete</mat-icon> </button></td>
-      </ng-container>
- <ng-container matColumnDef="expandedDetail">
-    <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
-      <div class="example-element-detail"
-           [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-        <div class="example-element-description">
-          detail.
-        </div>
-      </div>
-    </td>
-  </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let element; columns: displayedColumns;"
-      class="example-element-row"
-      [class.example-expanded-row]="expandedElement === element"
-      (click)="expandedElement = expandedElement === element ? null : element">
-  </tr>
-  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-</table> -->
 </div>
+
 
