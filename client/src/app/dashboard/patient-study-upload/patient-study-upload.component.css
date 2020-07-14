@@ -1,0 +1,30 @@
+.upload-box {
+    width: 80em;
+    max-width: 90%;
+    border: 4px dotted gray;
+    text-align: center;
+    padding: 75px 0;
+    margin: 1em auto;
+  }
+  
+  .upload-file-button {
+    margin-right: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  
+  .upload-folder-button {
+    min-width: 2em;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  
+  .submit-file-button {
+    float: right;
+  }
+  
+  .centered {
+    width: 80em;
+    max-width: 90%;
+    margin: auto;
+  }

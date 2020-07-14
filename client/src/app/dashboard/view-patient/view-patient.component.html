@@ -1,0 +1,139 @@
+
+  <mat-drawer-container class="example-container">
+    <mat-drawer mode="side" opened>
+      <mat-card class="card">
+        
+        <button mat-icon-button color="black" routerLink="/dashboard">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <form [formGroup]="patientForm">
+            <mat-card-header>
+                <div mat-card-avatar class="header-image"></div>
+                <mat-card-title>
+                    <div *ngIf="!editMode; else editingName">
+                        {{ selectedPatient.name }}
+                    </div>
+                    <ng-template #editingName>
+                        <input matInput class="upper-input-space" formControlName="name" type="text">
+                    </ng-template>
+                </mat-card-title>
+                <mat-card-subtitle>
+                    <div *ngIf="!editMode || !getStaffStatus(); else editingOrganization">
+                      {{ selectedPatient.organization }}
+                    </div>
+                    <ng-template #editingOrganization>
+                        <!-- <mat-select matInput formControlName="organization_id" style="width: 100%; border-bottom: 1px solid gray">
+                          <mat-option *ngFor="let organization of organizationList" [value]="organization.id">
+                            {{organization.name}}</mat-option>
+                        </mat-select> -->
+                    </ng-template>
+                </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="info-div">
+                  <mat-form-field class="input-space">
+                      <mat-label>Age</mat-label>
+                      <input matInput formControlName="age" type="text">
+                  </mat-form-field>
+              </div>
+              <div class="info-div">
+                  <mat-form-field class="input-space">
+                  <mat-label>Date of Birth</mat-label>
+                  <input matInput formControlName="dob" type="text">
+                  </mat-form-field>
+              </div>
+              <div class="info-div">
+                  <mat-form-field class="input-space">
+                  <mat-label>Sex</mat-label>
+                  <input matInput formControlName="sex" type="text">
+                  </mat-form-field>
+              </div>
+          </mat-card-content>
+          <mat-card-actions *ngIf="getAdminStatus()" class="action-buttons">
+              <div>
+                <button mat-button *ngIf="!editMode; else editing" (click)="enableEditMode()">
+                  <mat-icon>edit</mat-icon>Edit Info
+                </button>
+                <ng-template #editing>
+                  <button mat-flat-button color="primary" (click)="saveEdits()">
+                    Save Changes
+                  </button>
+                  <button mat-button (click)="cancelChanges()">
+                    Cancel
+                  </button>
+                </ng-template>
+              </div>
+              <div>
+                <button mat-button color="warn" (click)="deletePatient()">
+                  <mat-icon>delete</mat-icon>Delete Patient
+                </button>
+              </div>
+            </mat-card-actions>
+        </form>
+        <mat-divider class="divider"></mat-divider>
+        <!-- remove class or modify -->
+        <app-patient-study class="table" #patientStudyComponent ></app-patient-study>
+        <button mat-raised-button
+            class="example-add-tab-button"
+            (click)="addTab()">
+      Load Series
+    </button>
+    <!-- <mat-checkbox #selectAfterAdding> Select tab after adding </mat-checkbox> -->
+    </mat-card>
+
+    </mat-drawer>
+    <mat-drawer-content>
+    <!-- temporarily commenting this to introduce tabs -->
+    <div class ="center">
+      <mat-tab-group [selectedIndex]="selected.value"
+                  (selectedIndexChange)="selected.setValue($event)">
+        <mat-tab *ngFor="let tab of tabs; let index = index" [label]="tab">
+        
+          
+          
+          <div *ngIf="tab=='Upload'; else seriesViewerTab">
+            <div *ngIf="showUploadBox">
+              <app-patient-study-upload [selectedPatient]="selectedPatient" (filesUploaded)="refreshPatient()">
+              </app-patient-study-upload>
+              
+            </div>
+          </div>
+          <ng-template #seriesViewerTab>
+            
+          <button id="startBtn" class="tools" (click)=setAction(true) > <mat-icon>play_arrow</mat-icon> </button>
+          <button id="stopBtn" class="tools" (click)=setAction(false) > <mat-icon>pause</mat-icon> </button>
+          <button mat-raised-button
+                class="example-delete-tab-button"
+                [disabled]="tabs.length === 1"
+                (click)="removeTab(index)" style="float:right">
+            Delete Tab
+          </button>
+          
+          <div class="seriesTab">
+            <app-series-tabs #seriesTabsComponent></app-series-tabs>
+          </div>
+          </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  
+  
+  </div>
+    <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+     
+</mat-drawer-content>
+</mat-drawer-container> 

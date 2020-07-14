@@ -1,17 +1,18 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
-import { DashboardAddOrganizationComponent } from '@/dashboard/components/dashboard-add-organization/dashboard-add-organization.component';
-import { AuthGuard } from '@/core/guards/auth.guard';
-import { AdminGuard } from '@/core/guards/admin.guard';
-import { ManageUserComponent } from './components/manage-user/manage-user.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { ManageOrganizationComponent } from './components/manage-organization/manage-organization.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardHomeComponent } from './dashboard-home/dashboard-home.component';
+import { AddPatientComponent } from './add-patient/add-patient.component';
+import { PatientStudyDetailComponent } from './patient-study-detail/patient-study-detail.component';
+import { AuthGuard } from '../users/auth.guard';
+import { AdminGuard } from '../users/admin.guard';
+import { StaffGuard } from '../users/staff.guard';
+import { ViewPatientComponent} from './view-patient/view-patient.component';
+import { CanDeactivateGuard } from '../_services/can-deactivate.guard';
+import{ StudyDetailResolverService} from '../studies/study-detail-resolver.service';
 
-
-
-
-const routes: Routes = [
+const dashboardRoutes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
@@ -19,22 +20,34 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard],
         children: [
           {
-            path: 'user',
-            component: ManageUserComponent
+            path: 'add-patient',
+            canActivate: [AdminGuard],
+            canDeactivate: [CanDeactivateGuard],
+            component: AddPatientComponent,
           },
           {
-            path: 'add-organization',
-            component: DashboardAddOrganizationComponent
+            path: 'view-patient',
+            component: ViewPatientComponent,
+            canActivate: [StaffGuard],
+            canDeactivate: [CanDeactivateGuard]
+            
           },
           {
-            path: 'organization',
-            component: ManageOrganizationComponent,
-            canActivate: [AdminGuard]
+            path: ':uid',
+            component: PatientStudyDetailComponent,
+            resolve: {
+              studyDetail: StudyDetailResolverService
+            }
+          },
+          {
+            path: '',
+            component: DashboardHomeComponent,
+            // PatientDashboardComponent, 
+            canDeactivate: [CanDeactivateGuard]
           }
-
         ]
       }
     ]
@@ -42,7 +55,11 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forChild(dashboardRoutes)
+  ],
+  exports: [
+    RouterModule
+  ]
 })
 export class DashboardRoutingModule { }

@@ -1,0 +1,20 @@
+<div style="text-align: center">
+    <h2>Series</h2>
+    <h4>Patient Name: {{studyDetail.study.patient.patientName}} &nbsp;&nbsp;&nbsp;&nbsp; ID: {{studyDetail.study.patient.patientId}}</h4>
+  </div>
+  <div style="width: 80%; margin: auto; margin-bottom: 2em">
+    <div style="margin: 20px 0">
+      <a mat-raised-button routerLink="/dashboard/view-patient">Back</a>
+    </div>
+    <mat-accordion multi="true">
+        <mat-expansion-panel *ngFor="let imgSeries of imagingSeries" [expanded]="true">
+            <mat-expansion-panel-header>
+                <mat-panel-title>{{ imgSeries.seriesDescription }}</mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="actions">
+                <button mat-raised-button class="study-detail-button" matTooltip="Open the dicom viewer" color="primary" (click)="openViewer(imgSeries); $event.stopPropagation()">
+                    Viewer
+                  </button>
+              </div>
+        </mat-expansion-panel>
+    </mat-accordion>

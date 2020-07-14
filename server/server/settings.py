@@ -25,7 +25,7 @@ SECRET_KEY = 'janf8e0q=swqa2pje-um@12=a@@7#136u(o)tc86)%&c0ha9^j'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'testserver']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -37,9 +37,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_auth',
     'django_filters',
     'users.apps.UsersConfig',
     'organizations.apps.OrganizationsConfig',
+    'patients.apps.PatientsConfig',
+    'studies.apps.StudiesConfig',
+    'imagestudy.apps.ImagestudyConfig',
+    'viewer.apps.ViewerConfig'
+    
     # 'corsheaders', # cross domain support
 ]
 
@@ -123,11 +129,20 @@ REST_FRAMEWORK = {
 
 JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=7200),
-    'JWT_PAYLOAD_HANDLER': 'users.custom_jwt.jwt_custom_payload_handler',
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3600),
+    'JWT_PAYLOAD_HANDLER': 'users.custom_jwt.jwt_payload_handler',
+    # 'JWT_RESPONSE_PAYLOAD_HANDLER': 'custom_jwt.jwt_response_payload_handler'
 }
 
-
+BACKEND_DICOM_NODE = {
+    'AET': 'CARINANODE',
+    'ADDRESS': 'localhost',
+    'PORT': 4242,
+    'HTTP_PORT': 8042,
+    'HTTP_USERNAME': 'weborthanc',
+    'HTTP_PASSWORD': 'weborthancPassword',
+    'CONFIG_FILE': os.environ.get('ORTHANC_CONFIG_FILE', '') 
+}
 
 
 # Internationalization
@@ -148,8 +163,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-
-
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static")
+    os.path.join(BASE_DIR, 'static'),
 ]
+STATIC_ROOT = '/var/www/mics/static/'
+
+FILE_UPLOAD_TEMP_DIR = BASE_DIR

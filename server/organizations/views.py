@@ -1,45 +1,35 @@
-from rest_framework import viewsets, permissions
-from rest_framework.response import Response
+from rest_framework import generics, viewsets
+from rest_framework import permissions
 from rest_framework import status
+from rest_framework.response import Response
 
 from .models import Organization
 from .serializers import OrganizationSerializer
-from users.permissions import IsOrganizationAdminUser
+from users.permissions import IsOrganizationAdminUserOrIsStaffUser
 
-# Create your views here.
 class OrganizationViewSet(viewsets.ModelViewSet):
-    
+    '''
+    This viewset automatically provides `list`, `create`, `retrieve`,
+    `update` and `destroy` actions.
+    '''
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
-    permission_classes = [permissions.IsAuthenticated]
-    permission_classes_by_action = {
-        'retrieve': (permissions.IsAuthenticated,),
-        'list': (permissions.IsAuthenticated,),
-        'create': (permissions.IsAdminUser,),
-        'destroy': (permissions.IsAdminUser,),
-        'update': (permissions.IsAdminUser|IsOrganizationAdminUser,),
-        'partial_update': (permissions.IsAdminUser|IsOrganizationAdminUser,),
-    }
-    
+
     def get_permissions(self):
         '''
-        permissions class setting
-
+        Instantiates and returns the list of permissions that this view requires.
         '''
-        try:
-            return [permission() for permission in self.permission_classes_by_action[self.action]]
-        except KeyError:
-            if self.action:
-                action_func = getattr(self, self.action, {})
-                action_func_kwargs = getattr(action_func, 'kwargs', {})
-                permission_classes = action_func_kwargs.get('permission_classes')
-            else:
-                permission_classes = None
-                
-            return [permission() for permission in (self.permission_classes or permission_classes)]
-    
+        if self.action == 'retrieve' or self.action == 'list':
+            permission_classes = [permissions.IsAuthenticated]
+        elif self.action == 'create' or self.action == 'destroy':
+            permission_classes = [permissions.IsAdminUser]
+        else:
+            permission_classes = [permissions.IsAuthenticated, IsOrganizationAdminUserOrIsStaffUser]
+
+        return [permission() for permission in permission_classes]
+
     def retrieve(self, request, pk=None):
-        serializer = self.get_serializer(self.get_object())
+        serializer = self.get_serializer(self.get_object()) # default behavior for retrieve
         if not request.user.is_staff and not request.user.profile.organization.id == serializer.data['id']:
             return Response({'detail': 'You do not have access to this organization.'}, status=status.HTTP_403_FORBIDDEN)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -49,5 +39,4 @@ class OrganizationViewSet(viewsets.ModelViewSet):
         if not request.user.is_staff:
             queryset = queryset.filter(pk=request.user.profile.organization.id)
         serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    
+        return Response(serializer.data)

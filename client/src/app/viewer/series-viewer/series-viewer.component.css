@@ -1,0 +1,7 @@
+.indent-20px {
+  margin-left: 20px;
+}
+
+.mat-expansion-panel:last-child {
+  margin-bottom: 1em !important;
+}

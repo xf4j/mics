@@ -1,0 +1,70 @@
+<div class="container" [class.is-mobile]="mobileQuery.matches">
+    <mat-toolbar color="primary" class="toolbar">
+      <button mat-icon-button (click)="snav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <div class="settings-buttons">
+      <button *ngIf="checkLoggedIn()" mat-icon-button [matMenuTriggerFor]="settingsMenu">
+        <mat-icon>settings</mat-icon>
+      </button>
+      <mat-menu #settingsMenu="matMenu" xPosition="before">
+        <button *ngIf="checkAdminStatus()" mat-menu-item routerLink="/users">
+          <mat-icon class="router-icon">group</mat-icon>Manage Users
+        </button>
+        <button *ngIf="checkStaffStatus()" mat-menu-item routerLink="/organizations">
+          <mat-icon class="router-icon">language</mat-icon>Manage Organizations
+        </button>
+      </mat-menu>
+      <button *ngIf="!checkLoggedIn()" mat-button class="side-button" routerLink="/login">
+        <mat-icon class="router-icon">account_circle</mat-icon>Log In
+      </button>
+      <button mat-button [matMenuTriggerFor]="accountMenu" *ngIf="checkLoggedIn()">
+        <mat-icon>account_circle</mat-icon>
+        {{ checkUsername() }}
+      </button> 
+      <mat-menu #accountMenu="matMenu">
+        <button mat-menu-item >Change Password</button>
+        <!-- <button mat-menu-item routerLink="/change-password">Change Password</button> -->
+        <button mat-menu-item (click)="logout()">Log Out</button>
+      </mat-menu>
+      </div>
+      <!-- <img class="logo" src="static/client/assets/img/Springbok-Logo-REV-LR.png" (click)="redirectHome()"> -->
+      <!-- <h1 class="app-sidenav" routerLink="/dashboard">Springbok</h1> -->
+    </mat-toolbar>
+  
+    <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+      <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [(opened)]="opened"
+        (openedChange)="onOpenedChange()" role="navigation" [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+  
+        <mat-nav-list class="nav-list">
+          
+          <div *ngIf="enabled ; else disabled">
+            <h3 class="title">Organizations</h3>
+            <!-- Organization list -->
+            <div *ngIf="checkLoggedIn() && !!organizationService.organizationList" class="organization-view">
+              <div>
+                <button mat-button class="side-button items" *ngFor="let organization of organizationService.organizationList"
+                (click)="setOrganization(organization)">{{organization.name}} </button>
+              </div>
+            </div> 
+            <button *ngIf="checkLoggedIn()" mat-button class="side-button" (click)="setOrganization()">
+              <mat-icon class="router-icon">refresh</mat-icon>Show all Organizations
+            </button>
+          </div> 
+          <ng-template #disabled>
+            <div>
+              <button *ngIf="checkLoggedIn()" mat-button class="side-button" >
+                {{ getOrganizationname() }}
+              </button>
+              {{ this.authService.organizationId }}
+              
+            </div>
+          </ng-template>
+        </mat-nav-list>
+      </mat-sidenav>
+  
+      <mat-sidenav-content>
+        <router-outlet></router-outlet>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>

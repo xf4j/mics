@@ -1,0 +1,24 @@
+.form {
+    margin: auto;
+    text-align: center;
+  }
+  
+  .title {
+    margin-top: 1em;
+  }
+  
+  .login-form {
+    width: 500px;
+    max-width: 90vw;
+  }
+  
+  .login-button {
+    display: block;
+    margin: 2em auto;
+    width: 500px;
+    max-width: 90vw;
+  }
+  
+  .spinner {
+    margin: auto;
+  }

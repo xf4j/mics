@@ -1,0 +1,31 @@
+<div *ngIf="isLoading">
+  <p>Loading...</p>
+  <mat-spinner diameter="25" color="primary"></mat-spinner>
+</div>
+<div *ngIf="!isLoading && allLoadSuccess === false">
+    <p>Failed to load. Please try again.</p>
+</div>
+<div *ngIf="!isLoading && allLoadSuccess == true" class="viewer-panel" 
+     oncontextmenu="return false" (mousedown)="onMouseDown($event)">
+  <app-dicom-viewer #axialDicomViewer
+                    [displayData]="displayData"  
+                    [class.single-panel]="true"
+                    [hidden]="fullScreenPanel && fullScreenPanel != axialDicomViewer">
+  </app-dicom-viewer>
+  <div>3D</div>
+  <app-dicom-viewer #coronalDicomViewer
+                    [displayData]="displayData"
+                    [class.single-panel]="fullScreenPanel && fullScreenPanel === coronalDicomViewer"
+                    [hidden]="true">
+  </app-dicom-viewer>
+  <app-dicom-viewer #sagittalDicomViewer
+                    [displayData]="displayData"
+                    [class.single-panel]="fullScreenPanel && fullScreenPanel === sagittalDicomViewer"
+                    [hidden]="true">
+  </app-dicom-viewer>
+
+  <div class="overlay" style="bottom: 0px; left: 0px;">
+    WL/WW: {{ axialDicomViewer.currentWindowCenter }} / {{ axialDicomViewer.currentWindowWidth }}
+    <button mat-button matTooltip="Reset window" style="padding: 0; min-width: 0;" (click)="resetWindow()"> <mat-icon>refresh</mat-icon> </button>
+  </div>
+</div>

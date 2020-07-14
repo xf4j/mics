@@ -1,0 +1,33 @@
+.indent-20px {
+    margin-left: 20px;
+  }
+  
+  .study-detail-button {
+    margin: 0px 5px;
+    text-align: center;
+    width: 100px;
+    padding: 0;
+  }
+  
+  .body-part-group {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+  }
+  
+  .body-part-button {
+    margin: 5px;
+  }
+  
+  .progress-bar {
+    margin-bottom: -4px;
+  }
+  
+  .actions {
+    display: flex; 
+    justify-content: flex-start;
+  }
+  
+  mat-panel-title {
+    margin: auto;
+  }

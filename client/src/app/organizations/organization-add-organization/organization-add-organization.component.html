@@ -1,0 +1,92 @@
+<div class="form">
+    <h3>Add an Organization</h3>
+  
+    <form [formGroup]="organizationForm" (keyup.enter)="addOrganization()">
+      <div>
+        <mat-form-field class="form-field">
+          <mat-label for="name">Organization Name</mat-label>
+          <input matInput type="text" autofocus formControlName="name" class="form-control" (keyup.enter)="addOrganization()">
+          <mat-error *ngIf="f.name.errors" class="invalid-feedback">
+            <div *ngIf="f.name.errors.required">Name is required</div>
+          </mat-error>
+        </mat-form-field>
+      </div>
+  
+      <div>
+        <mat-form-field class="form-field">
+          <mat-label for="address_line1">Address</mat-label>
+          <input matInput type="text" formControlName="address_line1" class="form-control" (keyup.enter)="addOrganization()">
+          <mat-error *ngIf="f.name.errors" class="invalid-feedback">
+            <div *ngIf="f.name.errors.required">Address is required</div>
+          </mat-error>
+          </mat-form-field>
+      </div>
+  
+      <div>
+        <mat-form-field class="form-field">
+          <mat-label for="address_line2">Address 2</mat-label>
+          <input matInput type="text" formControlName="address_line2" class="form-control" (keyup.enter)="addOrganization()">
+          </mat-form-field>
+      </div>
+  
+      <div>
+        <mat-form-field class="form-field">
+          <mat-label for="address_city">City</mat-label>
+          <input matInput type="text" formControlName="address_city" class="form-control" (keyup.enter)="addOrganization()">
+          <!-- <mat-error *ngIf="f.name.errors" class="invalid-feedback">
+            <div *ngIf="f.name.errors.required">City is required</div>
+          </mat-error>-->
+          </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field class="form-field">
+          <mat-label for="address_state">State</mat-label>
+          <input matInput type="text" formControlName="address_state" class="form-control" (keyup.enter)="addOrganization()">
+          <!-- <mat-error *ngIf="f.name.errors" class="invalid-feedback">
+            <div *ngIf="f.name.errors.required">State is required</div>
+          </mat-error> -->
+          </mat-form-field>
+      </div>
+  
+      <div>
+        <mat-form-field class="form-field">
+          <mat-label for="address_zip">Postal Code</mat-label>
+          <input matInput type="text" formControlName="address_zip" class="form-control" (keyup.enter)="addOrganization()">
+          <!-- <mat-error *ngIf="f.name.errors" class="invalid-feedback">
+            <div *ngIf="f.name.errors.required">Name is required</div>
+          </mat-error> -->
+          </mat-form-field>
+      </div>
+  
+      <div>
+        <mat-form-field class="form-field">
+          <mat-label for="address_country">Country</mat-label>
+          <input matInput type="text" formControlName="address_country" class="form-control" (keyup.enter)="addOrganization()">
+          <!-- <mat-error *ngIf="f.name.errors" class="invalid-feedback">
+            <div *ngIf="f.name.errors.required">Name is required</div>
+          </mat-error> -->
+          </mat-form-field>
+      </div>
+  
+      <div>
+        <mat-form-field class="form-field">
+          <mat-label for="phone">Phone</mat-label>
+          <input matInput type="text" formControlName="phone" class="form-control" (keyup.enter)="addOrganization()">
+          <!-- <mat-error *ngIf="f.name.errors" class="invalid-feedback">
+            <div *ngIf="f.name.errors.required">phone is required</div>
+          </mat-error> -->
+          </mat-form-field>
+      </div>
+  
+      
+  
+      
+      <div>
+        <button mat-raised-button color="primary" class="submit-button" (click)="addOrganization()">Add Organization</button>
+      </div>
+      <div>
+        <button mat-button class="submit-button" routerLink="/dashboard">Cancel</button>
+      </div>
+    </form>
+  </div> 

@@ -1,0 +1,28 @@
+<div style="display: flex; float: left; margin: 10px 0">
+    <!-- Upload files and folder, includes drag and drop -->
+    <div style="display: flex" matTooltip="Browse your files or drag & drop your files/folders here">
+      <div color="primary" style="padding-right: 5px; padding-top: 10px;">
+        <div *ngIf="!selectedFiles && !isParsing">Browse/drop files</div>
+        <div *ngIf="isParsing" style="display: flex;">
+          Parsing... 
+          <!-- <mat-spinner style="display: inline-block;" diameter="25" color="primary"></mat-spinner> -->
+        </div>
+        <div *ngIf="selectedFiles && !isParsing">{{selectedFiles.length}} file(s) selected</div>
+      </div>
+  
+      <button mat-stroked-button color="primary" (click)="folderSelect.click()" matTooltip="folder" matTooltipPosition="above">
+        <mat-icon>folder</mat-icon>
+        <input #folderSelect type="file" style="display: none" (change)="selectedFiles = folderSelect.files" webkitDirectory>
+      </button>
+    </div>
+    <button mat-raised-button color="primary" style="margin-left: 10px; width: 120px;" [disabled]="!selectedFiles || isParsing || isUploading" (click)="upload()" matTooltip="Only DICOM file can be uploaded">
+      <mat-progress-bar class="progress-bar" *ngIf="isUploading" mode="determinate" [value]="uploadService.getUploadProgress()"></mat-progress-bar>
+      <div *ngIf="!isUploading; else uploadProgressField">Upload<mat-icon class="icon-right-to-text">cloud_upload</mat-icon></div>
+      <ng-template #uploadProgressField>Progress: {{uploadService.getUploadProgress() | number: '1.0-0'}}%</ng-template>
+    </button>
+    
+        <!-- <div matTooltip="TODO: backend cancel upload before unsubscribing">
+          <button mat-button color="warn" class="cancel-upload" [disabled]="true" style="margin-right: 1px; border-radius: 6px; padding: 0 5px" (click)="cancelUpload()">Cancel</button>
+        </div> -->
+  </div>
+  
