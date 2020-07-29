@@ -3,7 +3,6 @@
 # # Start orthanc
 # # Do not overwrite
 mkdir -p /storage/orthanc
-/mics/orthanc/Orthanc /mics/orthanc/orthanc.json &
 
 # Start gunicorn
 # To-do: check the system core and set the number of workers correspondingly
