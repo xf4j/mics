@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import { Router } from '@angular/router';
 import { SeriesViewerComponent } from '../../viewer/series-viewer/series-viewer.component';
@@ -12,6 +12,7 @@ export class SeriesTabsComponent implements OnInit {
   @ViewChild(SeriesViewerComponent )
   private seriesViewerComponent: SeriesViewerComponent;
   uids: any;
+  @Input() seriesUIDs: any;
 
   constructor(
     private router: Router,
@@ -20,11 +21,7 @@ export class SeriesTabsComponent implements OnInit {
   
 
   ngOnInit(): void {
-    this.seriesService.getSelectedSeriesInstanceUID().subscribe(
-      seriesInstanceUid => {
-        this.uids=seriesInstanceUid;
-        console.log("Printing and tetsting uids",this.uids);
-    });
+    
   }
 
   

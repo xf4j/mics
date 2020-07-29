@@ -14,10 +14,11 @@ export class SeriesViewerComponent implements OnInit {
 
   seriesDetail: IViewerSeriesDetail;
   isLoading: boolean = true;
-
+  widthx: any;
   @ViewChild('viewerPanel') viewerPanel;
   @Input() seriesInstanceUid: any;
   @Input() lengthOfSeries: any;
+  
   constructor(
     private route: ActivatedRoute,
     private viewerService: ViewerService,
@@ -28,7 +29,8 @@ export class SeriesViewerComponent implements OnInit {
   ngOnInit(): void {
     // console.log("Inside Series Viewer")
     // const seriesInstanceUid = '1.3.12.2.1107.5.2.30.25360.30000014042912245843700000449';
-    
+        this.widthx=Math.sqrt(this.lengthOfSeries);
+        this.widthx=Math.ceil(this.widthx)
         this.viewerService.checkSeriesInstanceUidValid(this.seriesInstanceUid).subscribe(
           (res)=>{
             this.viewerService.getViewerSeriesDetail(this.seriesInstanceUid).subscribe(

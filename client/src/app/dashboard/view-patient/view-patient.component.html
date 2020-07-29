@@ -73,51 +73,59 @@
         <mat-divider class="divider"></mat-divider>
         <!-- remove class or modify -->
         <app-patient-study class="table" #patientStudyComponent ></app-patient-study>
-        <button mat-raised-button
-            class="example-add-tab-button"
-            (click)="addTab()">
-      Load Series
-    </button>
-    <!-- <mat-checkbox #selectAfterAdding> Select tab after adding </mat-checkbox> -->
+        
     </mat-card>
 
     </mat-drawer>
     <mat-drawer-content>
-    <!-- temporarily commenting this to introduce tabs -->
-    <div class ="center">
-      <mat-tab-group [selectedIndex]="selected.value"
-                  (selectedIndexChange)="selected.setValue($event)">
-        <mat-tab *ngFor="let tab of tabs; let index = index" [label]="tab">
-        
+      
+        <div class="mainContent">
+        <mat-tab-group [selectedIndex]="seriesService.selected.value"
+                    (selectedIndexChange)="seriesService.selected.setValue($event)">
+          <mat-tab *ngFor="let tab of seriesService.tabs; let index = index">
+            <ng-template mat-tab-label>
+                <div class="col" style="margin-left: 20px;">{{tab}}</div>
+                <div style="float:right"> 
+                  <button mat-icon-button *ngIf="tab !== 'Upload'" style="color:black; " matTooltip="Close Tab"
+                  class="example-delete-tab-button" (click)="seriesService.removeTab(index)" >
+                  <mat-icon>close</mat-icon>
+              </button>
+                </div>
+                
+            </ng-template>
           
-          
-          <div *ngIf="tab=='Upload'; else seriesViewerTab">
-            <div *ngIf="showUploadBox">
-              <app-patient-study-upload [selectedPatient]="selectedPatient" (filesUploaded)="refreshPatient()">
-              </app-patient-study-upload>
+            <div *ngIf="tab=='Upload'; else seriesViewerTab">
+              <div *ngIf="showUploadBox">
+                <app-patient-study-upload [selectedPatient]="selectedPatient" (filesUploaded)="refreshPatient()">
+                </app-patient-study-upload>
+                
+              </div>
+            </div>
+            <ng-template #seriesViewerTab>
+            <div class="demo">
+            
+            <div class="controlPanel">
               
+              <button mat-button matTooltip="Play" [matTooltipShowDelay]="500" id="startBtn" class="tools" (click)=setAction(true) > <mat-icon>play_arrow</mat-icon> </button>
+              <br>
+              <br>
+              <br>
+              <button mat-button matTooltip="Pause" [matTooltipShowDelay]="500" id="stopBtn" class="tools" (click)=setAction(false) > <mat-icon>pause</mat-icon> </button>
+              <br>
+              <br>
+              <button mat-button matTooltip="Reset display" [matTooltipShowDelay]="500" id="reset" class="tools" (click)="resetDisplay()" > <mat-icon>refresh</mat-icon> </button>
+            </div>
+            <div class="seriesTab">
+              <app-series-tabs #seriesTabsComponent [seriesUIDs]="seriesService.tabUIDS[tab]"></app-series-tabs>
             </div>
           </div>
-          <ng-template #seriesViewerTab>
-            
-          <button id="startBtn" class="tools" (click)=setAction(true) > <mat-icon>play_arrow</mat-icon> </button>
-          <button id="stopBtn" class="tools" (click)=setAction(false) > <mat-icon>pause</mat-icon> </button>
-          <button mat-raised-button
-                class="example-delete-tab-button"
-                [disabled]="tabs.length === 1"
-                (click)="removeTab(index)" style="float:right">
-            Delete Tab
-          </button>
-          
-          <div class="seriesTab">
-            <app-series-tabs #seriesTabsComponent></app-series-tabs>
-          </div>
-          </ng-template>
-      </mat-tab>
-    </mat-tab-group>
-  
-  
+            </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+    
   </div>
+  
+
     <br>
       <br>
       <br>

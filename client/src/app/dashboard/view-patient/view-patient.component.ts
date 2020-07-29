@@ -1,5 +1,5 @@
 import { Component, OnInit , ViewChild, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 import { PatientService } from '../patient.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,6 +10,7 @@ import { PatientStudyTableComponent } from '../patient-study-table/patient-study
 import { PatientStudyComponent } from '../patient-study/patient-study.component';
 import { ViewerService } from '../../viewer/viewer.service';
 import { SeriesTabsComponent } from '../series-tabs/series-tabs.component';
+import { SeriesService } from '../series.service';
 @Component({
   selector: 'app-view-patient',
   templateUrl: './view-patient.component.html',
@@ -26,6 +27,7 @@ export class ViewPatientComponent implements OnInit {
   editMode: boolean = false;
   organizationList: any[] = [];
   disablesidenav : boolean =false;
+  // seriesUIDs: any[];
 
   @ViewChild(PatientStudyComponent)
   private patientStudyComponent: PatientStudyComponent;
@@ -41,7 +43,8 @@ export class ViewPatientComponent implements OnInit {
     private organizationService: OrganizationService,
     private confirmDialog: MatDialog,
     private router: Router,
-    private viewerService: ViewerService
+    private viewerService: ViewerService,
+    public seriesService: SeriesService
   ) {
     this.patientForm = this.formBuilder.group({
       id: '',
@@ -158,23 +161,13 @@ export class ViewPatientComponent implements OnInit {
     return this.authService.is_staff;
   }
 
-  tabs = ['Upload'];
-  selected = new FormControl(0);
 
-  addTab() {
-    this.tabs.push('New');
-
-    // if (selectAfterAdding) {
-      this.selected.setValue(this.tabs.length - 1);
-    // }
-  }
-
-  removeTab(index: number) {
-    this.tabs.splice(index, 1);
-  }
 
   setAction(action){
     this.viewerService.setSelectedPlayerAction(action);
   }
  
+  resetDisplay(){
+    
+  }
 }

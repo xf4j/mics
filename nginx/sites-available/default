@@ -52,7 +52,7 @@ server {
 	#}
 
 	location /static/ {
-		root /var/www/myogram;
+		root /var/www/mics;
 	}
 
 	location / {

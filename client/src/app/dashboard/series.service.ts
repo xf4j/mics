@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { FormControl } from '@angular/forms';
 
 import { AuthService } from '../users/auth.service';
 import { ServerService } from '../_services/server.service';
@@ -12,7 +13,12 @@ import { AlertService } from '../alert/alert.service';
 })
 export class SeriesService {
 
+  tabUIDS={};
+  tabsToOpen={};
+  alreadyOpenedTabs={};
   private selectedSeriesInstanceUID= new BehaviorSubject<any>(null);
+  private numberofStudiesSelected = new BehaviorSubject<any>(null);
+
   constructor(
     private http: HttpClient,
     private authService: AuthService,
@@ -21,11 +27,32 @@ export class SeriesService {
   ) { }
 
 
-  setSelectedSeriesInstanceUID(uid): void {
-    this.selectedSeriesInstanceUID.next(uid);
+  setNumberofStudiesSelected(n): void {
+    this.numberofStudiesSelected.next(n);
 }
 
-  getSelectedSeriesInstanceUID(): Observable<any> {
-    return this.selectedSeriesInstanceUID.asObservable();
+  getNumberofStudiesSelected(): Observable<any> {
+    return this.numberofStudiesSelected.asObservable();
+}
+
+setSelectedSeriesInstanceUID(uid): void {
+  this.selectedSeriesInstanceUID.next(uid);
+}
+
+getSelectedSeriesInstanceUID(): Observable<any> {
+  return this.selectedSeriesInstanceUID.asObservable();
+}
+
+tabs = ['Upload'];
+selected = new FormControl(0);
+
+addTab(tabName:string) {
+  this.tabs.push(tabName);
+  this.selected.setValue(this.tabs.length - 1);
+  
+}
+
+removeTab(index: number) {
+  this.tabs.splice(index, 1);
 }
 }

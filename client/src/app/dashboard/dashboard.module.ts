@@ -5,7 +5,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {MatTabsModule} from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCheckboxModule, MatCheckbox } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
@@ -20,7 +20,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import {MatSidenavModule} from '@angular/material/sidenav';
-import { MatListModule } from '@angular/material/list';
+import { MatListModule, MatList } from '@angular/material/list';
+import { MatTreeModule } from '@angular/material/tree';
+
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -36,6 +38,7 @@ import { PatientStudyDetailComponent } from './patient-study-detail/patient-stud
 import { PatientStudyComponent } from './patient-study/patient-study.component';
 import { SeriesTabsComponent } from './series-tabs/series-tabs.component';
 import { ViewerModule } from '../viewer/viewer.module';
+import { PatientStudyListComponent } from './patient-study-list/patient-study-list.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +54,7 @@ import { ViewerModule } from '../viewer/viewer.module';
     PatientStudyDetailComponent,
     PatientStudyComponent,
     SeriesTabsComponent,
+    PatientStudyListComponent,
        
   ],
   imports: [
@@ -68,6 +72,8 @@ import { ViewerModule } from '../viewer/viewer.module';
     MatIconModule,
     MatButtonModule,
     MatToolbarModule,
+    // MatList,
+    // MatCheckbox,
     MatPaginatorModule,
     MatDialogModule,
     MatListModule,
@@ -76,18 +82,12 @@ import { ViewerModule } from '../viewer/viewer.module';
     MatSelectModule,
     MatSidenavModule,
     MatCardModule,
+    MatTreeModule,
     MatProgressBarModule,
     MatExpansionModule,
     ViewerModule
     
   ],
-  // entryComponents:[
-  //   TabsModule,
-  //   TabsComponent,
-  //   TabComponent,
-  //   DynamicTabsDirective,
-  //   PeopleListComponent,
-  //   PersonEditComponent
-  // ]
+  
 })
 export class DashboardModule { }

@@ -1,6 +1,3 @@
-  
-<app-series-viewer class="seriesViewer" #seriesViewerComponent *ngFor ="let uid of uids" [seriesInstanceUid]=uid [lengthOfSeries]=uids.length></app-series-viewer>
-<!-- <app-series-viewer #seriesViewerComponent></app-series-viewer>
-<app-series-viewer #seriesViewerComponent></app-series-viewer>
-<app-series-viewer #seriesViewerComponent></app-series-viewer>
-<app-series-viewer #seriesViewerComponent></app-series-viewer> -->
+<div style="display: flex; flex-wrap: wrap ;">
+<app-series-viewer class="seriesViewer" #seriesViewerComponent *ngFor ="let uid of seriesUIDs" [seriesInstanceUid]=uid [lengthOfSeries]=seriesUIDs.length></app-series-viewer>
+</div>

@@ -12,6 +12,10 @@
     margin: auto;
    }
   
+   .mainContent{
+    padding: 1em;
+    margin: auto;
+   }
   
   .card {
     width: calc(100% - 32px);
@@ -47,6 +51,12 @@
     margin: 0;
     display: inline-block;
   }
+
+  .mat-tab-label-active{
+    background-color: red;
+    opacity: 1 !important;
+
+  }
   
   /* .input {
       border-bottom: 1px solid gray;
@@ -71,14 +81,32 @@
 .example-add-tab-button,
 .example-delete-tab-button {
   margin: 8px;
+  float:right; 
+  outline:none;
+  opacity: 0.6;
 }
+.example-delete-tab-button:hover{ opacity: 1;}
 
-.center {
-  margin: auto;
-  width: 80%;
-  
-}
+.controlPanel{
+  float:left;
+  height: 60%;
+  max-width: 10%;
+  padding-top: 10em;
+  }
 
 .seriesTab{
   float: left;
+  max-width: 90%;
+  padding: 2em;
+  padding-top: 1em;
+  margin: auto;
+
 }
+
+.demo{
+  float: left;
+  height: 100%;
+  
+
+}
+

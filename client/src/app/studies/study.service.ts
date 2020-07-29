@@ -20,15 +20,15 @@ export interface IStudy {
 
 export interface IStudyDetailTest {
   study: IStudy;
-  imagingSeriesDict: {}
-
+  imagingSeriesDict: {};
+  state: boolean;
+  seriesGroup: {}
 }
 
 export interface IStudyDetail {
   study: IStudy;
   imagingSeries: ISeries[];
-
-}
+  }
 
 export interface ISeries {
   studyInstanceUID: string;
@@ -41,6 +41,17 @@ export interface ISeries {
   isGeneratedInHouse?: boolean;
   inHouseSoftwareVersion?: string;
   selectedIncrementalLearningStructureSeries?: ISeries;
+}
+
+export class StudyNode{
+  children: StudyNode[];
+  name: string;
+}
+
+export class StudyFlatNode{
+  name: string;
+  level: number;
+  expandable: boolean;
 }
 
 @Injectable({
