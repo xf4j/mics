@@ -19,7 +19,7 @@
 # UTC: Etc/UTC
 # UTC+1: Europe/Amsterdam
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
-    docker run -it -e TZ=America/New_York -v `pwd`/storage:/storage --net=host --rm springbok/mics
+    docker run -it -e TZ=America/New_York -v `pwd`/storage:/storage --net=host --rm mics
 else
-    docker run -it -e TZ=America/New_York -v `pwd`/storage:/storage -p 8000:8000 -p 3200:3200 -p 80:80 -p 8042:8042 --rm springbok/mics
+    docker run -it -e TZ=America/New_York -v `pwd`/storage:/storage -p 8000:8000 -p 3200:3200 -p 80:80 -p 8042:8042 --rm mics
 fi

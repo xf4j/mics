@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build -t springbok/mics .
+docker build -t mics .
