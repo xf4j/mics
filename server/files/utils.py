@@ -1,14 +1,14 @@
 from django.conf import settings
 from pydicom import dcmread
 from pynetdicom import AE, StoragePresentationContexts
-import requests, os, sys, scipy, vtk
+import requests, os, sys, scipy
 import numpy as np
 import scipy.io as sio
 from scipy.interpolate import CubicSpline
 from scipy.ndimage import gaussian_filter
 from skimage.draw import polygon
 from skimage.transform import resize
-from vtk.util import numpy_support
+
 
 import requests, urllib
 from urllib.parse import urlencode
