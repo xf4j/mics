@@ -4,7 +4,7 @@
 # # Do not overwrite
 mkdir -p /storage/orthanc
 cp -f /mics/orthanc/orthanc.json /storage/orthanc/orthanc.json
-/mics/orthanc/Orthanc /storage/orthanc/orthanc.json &
+sudo /mics/orthanc/Orthanc /storage/orthanc/orthanc.json &
 
 # Start gunicorn
 # To-do: check the system core and set the number of workers correspondingly
