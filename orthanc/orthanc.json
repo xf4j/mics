@@ -9,12 +9,12 @@
 
   // Path to the directory that holds the heavyweight files
   // (i.e. the raw DICOM instances)
-  "StorageDirectory" : "/storage/orthanc/storage",
+  "StorageDirectory" : "../OrthancStorage",
 
   // Path to the directory that holds the SQLite index (if unset,
   // the value of StorageDirectory is used). This index could be
   // stored on a RAM-drive or a SSD device for performance reasons.
-  "IndexDirectory" : "/storage/orthanc/storage",
+  "IndexDirectory" : "../OrthancStorage",
 
   // Enable the transparent compression of the DICOM instances
   "StorageCompression" : false,
@@ -39,10 +39,10 @@
   // folders, in which case they will be scanned non-recursively to
   // find shared libraries.
   "Plugins" : [
-    "/myogram/orthanc/libModalityWorklist.so",
-    "/myogram/orthanc/libServeFolders.so",
-    "/myogram/orthanc/libOrthancDicomWeb.so",
-    "/myogram/orthanc/libOrthancWebViewer.so"
+    "./libModalityWorklist.so",
+    "./libServeFolders.so",
+    "./libOrthancDicomWeb.so",
+    "./libOrthancWebViewer.so"
   ],
 
 
@@ -82,7 +82,7 @@
   "DicomServerEnabled" : true,
 
   // The DICOM Application Entity Title
-  "DicomAet" : "SPRINGBOKNODE",
+  "DicomAet" : "CARINANODE",
 
   // Check whether the called AET corresponds during a DICOM request
   "DicomCheckCalledAet" : false,
