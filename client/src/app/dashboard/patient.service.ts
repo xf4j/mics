@@ -93,43 +93,7 @@ export class PatientService {
     );
   });
   }
-  // getPatients(selectedOrganization?: string): void {
-  //   console.log("Test 100 getPatients");
-  //   this.authService.refreshAndGetHttpOptionsWithToken().subscribe(
-  //     httpOptions => this.http.get(this.serverService.patientsBaseAPI(), httpOptions).subscribe(
-  //       (data: any[]) => {
-  //         console.log("Test 101 data=",data);
-  //         if (this.alertService.checkAndDisplayError(data)) {
-  //           console.log("Test 102 selectedOrganization=",selectedOrganization);
-  //           if (!!selectedOrganization) {
-  //             console.log("Test 103 inside if of selected org");
-  //             let selectedOrgPatients: Patient[]=[]
-  //             for (let patient of data) {
-  //               if(patient.organization == selectedOrganization['name'])
-  //               { 
-  //               selectedOrgPatients.push(patient);}
-  //             }
-  //             this.patientsList=selectedOrgPatients;
-  //           }
-  //           else
-  //           {
-  //             console.log("Test 104 inside else of selected org");
-  //             this.patientsList=data;
-  //           }
-  //           console.log("Test 105 patientList : ", this.patientsList);
-  //         }
-  //         else {
-  //           this.alertService.error("Could not connect to server.");
-  //         }
-
-  //       },
-  //       err => {
-  //         this.alertService.checkAndDisplayError(err);
-  //       }
-  //     )
-  //   );
-  // }
-
+  
   updatePatient(patientId, patientForm): Observable<any>{
     let self = this;
     return new Observable(observer =>{

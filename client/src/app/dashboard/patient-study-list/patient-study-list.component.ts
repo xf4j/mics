@@ -50,13 +50,11 @@ export class ChecklistDatabase {
 export class PatientStudyListComponent implements OnInit {
 
   ngOnInit(): void {
-    // console.log("Hi in init");
+    
     
   }
 
   ngOnChanges(){
-    // console.log("Checking the treedata");
-    // console.log(this.treeData1);
     this._database.initialize(this.treeData1);
     this._database.dataChange.subscribe(data => {
       this.dataSource.data = data;

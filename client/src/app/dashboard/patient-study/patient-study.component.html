@@ -1,42 +1,9 @@
 <mat-nav-list class="nav-list">
-
-    <div>
-      <mat-accordion multi="true" displayMode="'flat'">
-          <mat-expansion-panel
-            *ngFor="let studyDetail of studyDetails">
-            <mat-expansion-panel-header >
-              <mat-panel-title>
-              <!-- {{ study.image_study_id }} -->
-              {{studyDetail.study.studyID}}
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <div class="seriesButton" >           
-            
-            <!-- <mat-checkbox *ngFor="let series of studyDetail.imagingSeriesDict | keyvalue" id=series.key (change)="updateSeriesTab($event)">{{ series.key }} </mat-checkbox> -->
-            <mat-selection-list #seriesList>
-              <mat-list-option *ngFor="let series of studyDetail.imagingSeriesDict | keyvalue" [value]='series'>
-                {{ series.key }} 
-                
-                <!-- <mat-list role="list" *ngFor="let seriesItem of studyDetailList.imagingSeries"> 
-                  <mat-list-item role="listitem"  *ngIf="seriesItem.seriesDescription=='short_axis_cine'">
-                    {{seriesItem.seriesDescription}}
-                    
-                  </mat-list-item>
-                </mat-list> -->
-              
-              </mat-list-option>
-            </mat-selection-list>
-            <button mat-raised-button [disabled]='seriesList.selectedOptions.selected.length==0' (click)="xloadSeries(seriesList.selectedOptions.selected)">Load Series</button>
-            </div>
-            </mat-expansion-panel>
-        </mat-accordion>
-    </div>
-
-   <div>
+  <div>
     <app-patient-study-list #patientStudyListComponent [treeData1]="treeData"></app-patient-study-list>
     <!-- <app-patient-study-list #patientStudyListComponent></app-patient-study-list> -->
     
     <button mat-raised-button [disabled]='size!=1' (click)="loadSeries()">Load Series</button>
-   </div>
+  </div>
 
   </mat-nav-list>

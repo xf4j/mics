@@ -107,9 +107,7 @@ export class ViewerService {
           //let imageID = 'wadouri:' + uri;
           // for (let uid of uids) {
           for (let i = 0; i < uids.length; i++) {
-            console.log("UIDS = ", uids[i]);
             let imageId = 'wadouri:' + self.serverService.viewerBaseAPI() + 'instances/' + uids[i] + '/';
-            console.log("imageId = ", imageId);
             cornerstone.loadAndCacheImage(imageId).then(
               image => {
                 allImages.push(image);
@@ -128,7 +126,6 @@ export class ViewerService {
                     numberOfImages: numberOfImages
                     
                   }
-                  console.log("DD", displayData);
                   observer.next(displayData);
                 } else if (loadCount === numberOfImages) {
                   self.alertService.error('Load image failed, please retry.');
@@ -136,7 +133,6 @@ export class ViewerService {
                 }
               }, 
               err => {
-                console.log(err);
                    loadCount++;
                 self.allLoadSuccess = false;
                 if (loadCount === numberOfImages) {

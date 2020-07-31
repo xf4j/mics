@@ -61,7 +61,7 @@ export class PatientStudyComponent implements OnInit {
       this.seriesService.getNumberofStudiesSelected().subscribe(
         number=>{
           this.size=number;
-          console.log("----------> size badla",this.size);
+          
         }
       );
       
@@ -75,7 +75,7 @@ export class PatientStudyComponent implements OnInit {
     for (let study of studyDetails){
       let seriesList={}
       for (let series in study['seriesGroup']){
-        console.log("test 1",series)
+        
         let descList=[];
         for (let seriesDesc in study['seriesGroup'][series]['metaData']){
           descList.push(study['seriesGroup'][series]['metaData'][seriesDesc]['seriesDescription'])
@@ -84,7 +84,7 @@ export class PatientStudyComponent implements OnInit {
       }
       this.treeData[study['study']['studyID']]=seriesList;
     }
-    console.log("Test--------->",this.treeData);
+    
   }
 
   loadStudies(patient) {
@@ -153,15 +153,12 @@ export class PatientStudyComponent implements OnInit {
        
  }
  loadSeries(){
-
+  console.log("Already opened tabs",this.seriesService.alreadyOpenedTabs);
+  console.log("TabsToOpen", this.seriesService.tabsToOpen);
   let n=Object.keys(this.seriesService.alreadyOpenedTabs).length;
   if(n==0){
     for (let study in this.seriesService.tabsToOpen ){
         for (let series of this.seriesService.tabsToOpen[study]){
-          // console.log(series)
-          // console.log("--------------sD",this.studyDetails)
-          // console.log(this.studyDetails['seriesGroup'])
-          // console.log(this.studyDetails['seriesGroup'][series])
           if (this.seriesService.tabUIDS.hasOwnProperty(series)){
             // flushing the values of already existing other studies' series with same name
             delete this.seriesService.tabUIDS[series];

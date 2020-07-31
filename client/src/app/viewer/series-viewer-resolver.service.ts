@@ -17,8 +17,6 @@ export class SeriesViewerResolverService {
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Observable<never> {
     let seriesInstanceUid = route.paramMap.get('uid');
-    console.log(" Logging uid=",seriesInstanceUid)
-    console.log("Resolve of Series Viewer")
     return this.viewerService.checkSeriesInstanceUidValid(seriesInstanceUid).pipe(
       take(1),
       // catchError(err => {

@@ -1,7 +1,7 @@
 
 <app-patient-study-table class="table" #patientStudyTableComponent ></app-patient-study-table>
 <div #fileDrop class="upload-box" (drop)="onDrop($event)">
-  <button mat-stroked-button color="primary" class="upload-file-button" (click)="fileSelect.click()">
+  <button mat-stroked-button color="primary" class="upload-file-button" >
     <div *ngIf="!selectedFiles && !isParsing">Browse/drop files</div>
     <div *ngIf="isParsing" style="display: flex;">
       Parsing... 
@@ -9,7 +9,7 @@
     </div>
     <div *ngIf="selectedFiles && !isParsing">{{selectedFiles.length}} file(s) selected</div>
   
-    <input #fileSelect type="file" style="display: none" (change)="selectedFiles = fileSelect.files" multiple>
+    
   </button>
   <button mat-stroked-button color="primary" class="upload-folder-button" (click)="folderSelect.click()">
     <mat-icon>folder</mat-icon>

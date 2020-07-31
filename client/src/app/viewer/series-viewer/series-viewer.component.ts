@@ -27,8 +27,6 @@ export class SeriesViewerComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // console.log("Inside Series Viewer")
-    // const seriesInstanceUid = '1.3.12.2.1107.5.2.30.25360.30000014042912245843700000449';
         this.widthx=Math.sqrt(this.lengthOfSeries);
         this.widthx=Math.ceil(this.widthx)
         this.viewerService.checkSeriesInstanceUidValid(this.seriesInstanceUid).subscribe(
