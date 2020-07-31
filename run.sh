@@ -4,7 +4,7 @@
 # # Do not overwrite
 mkdir -p /storage/orthanc
 cp -f /mics/orthanc/orthanc.json /storage/orthanc/orthanc.json
-chmod u+x /mics/orthanc/Orthanc /storage/orthanc/orthanc.json &
+/mics/orthanc/Orthanc /storage/orthanc/orthanc.json &
 
 # Start gunicorn
 # To-do: check the system core and set the number of workers correspondingly
@@ -16,3 +16,4 @@ gunicorn -w 4 -t 3600 --access-logfile /storage/gunicorn/access --error-logfile 
 
 # Start nginx
 nginx -g 'daemon off;'
+ 
