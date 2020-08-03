@@ -30,18 +30,12 @@ class UploadDicomFile(APIView):
                 destination.write(chunk)
         os.close(fd)
         ret = upload_dicom_file(get_backend_dicom_node(), temp_path)
-        # print("Returned")
         os.remove(temp_path)
-        # print("Status",ret['status'])
         if ret['status'] == 201:
 
             patient = Patient.objects.get(pk=request.data['patient'][0])
-            print(patient.id)
-            print(ret['study_instance_uid'])
-            print("count",ImageStudy.objects.filter(patient__id=patient.id, image_study_instance_uid=ret['study_instance_uid']).count() )
             if ImageStudy.objects.filter(patient__id=patient.id, image_study_instance_uid=ret['study_instance_uid']).count() == 0:
                 try:
-                    print("New study")
                     imagestudy = ImageStudy(patient=patient, image_study_instance_uid=ret['study_instance_uid'], image_study_id=ret['study_id'], image_study_date=ret['study_date'], dicom_patient_id=ret['patient_id'])
                     imagestudy.save()
                 except IntegrityError:
@@ -51,9 +45,7 @@ class UploadDicomFile(APIView):
             else:
             # ImageStudy.objects.filter(patient__id=patient.id, image_study_instance_uid=ret['study_instance_uid']).count() != 0:
                 try:
-                    print("old study")
                     timenow=timezone.now()
-                    # print(timenow)
                     imagestudy=ImageStudy.objects.get(patient__id=patient.id, image_study_instance_uid=ret['study_instance_uid'])
                     imagestudy.created=timenow
                     imagestudy.save()

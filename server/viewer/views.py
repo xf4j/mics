@@ -36,9 +36,7 @@ class ViewerSeriesDetail(APIView):
         '''
         Return series detail for the use of viewer, including image series, segmentation series and segmentation contours.
         '''
-        print(" Test 1: ", request,series_instance_uid)
         ret = retrieve_viewer_series_detail(get_backend_dicom_node(), series_instance_uid)
-        print("Return = ",ret)
         if ret['status_code'] == 200:
             r = ret['results']
             detail = ViewerSeriesDetail(series=r['series'])

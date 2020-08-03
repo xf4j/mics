@@ -13,7 +13,6 @@ def check_series_exist(node, series_instance_uid):
     '''
     Check if the node contains the series
     '''
-    print("Inside check series exist",series_instance_uid)
     # Initialise the Application Entity
     ae = AE()
     # Add a requested presentation context
@@ -31,14 +30,10 @@ def check_series_exist(node, series_instance_uid):
     if assoc.is_established:
         # Use the C-FIND service to send the identifier
         responses = assoc.send_c_find(ds, query_model='S')
-        # print("Responses =",responses)
         for (status, identifier) in responses:
-            # print("status", status)
-            # print("identifier", identifier)
             if status and status.Status in (0xFF00, 0xFF01):
                 study_instance_uid = getattr(identifier, 'StudyInstanceUID', '')
-                # print("study Insta UID", study_instance_uid)
-        
+                
         # Release the association
         assoc.release()
         if study_instance_uid == '':
