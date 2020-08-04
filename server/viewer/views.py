@@ -36,15 +36,10 @@ class ViewerSeriesDetail(APIView):
         '''
         Return series detail for the use of viewer, including image series, segmentation series and segmentation contours.
         '''
-        print("Test 1")
         ret = retrieve_viewer_series_detail(get_backend_dicom_node(), series_instance_uid)
-        print("Test 2",ret)
-        print("Test 3 ret['status_code']",ret['status_code'])
         if ret['status_code'] == 200:
             r = ret['results']
-            print("Test 4",r)
             detail = ViewerSeriesDetail(series=r['series'])
-            print("Test 5",detail)
             serializer = ViewerSeriesDetailSerializer(detail)
             return Response(data=serializer.data, status=status.HTTP_200_OK)
         else:
@@ -60,7 +55,10 @@ class ViewerInstance(APIView):
         '''
         Return requested instance from backend DICOM node.
         '''
+        print("Test 1 Instance",sop_instance_uid)
         answer = get_wado_uri(get_backend_dicom_node(), sop_instance_uid)
+        print("Test 2 Instance",answer)
+        print("Test 2 Instance",answer['status'])
         if answer['status'] != 200:
             return HttpResponse(content=None, status=answer['status'], content_type='application/json')
         else:

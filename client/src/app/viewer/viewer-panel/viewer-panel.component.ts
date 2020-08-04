@@ -48,6 +48,7 @@ export class ViewerPanelComponent implements OnInit {
   ngOnInit(): void {
     this.cornerstoneWADOImageLoaderInit();
     this.isLoading = true;
+    console.log("test 1",this.seriesDetail.instanceUIDs)
     this.viewerService.loadDisplayData(this.seriesDetail.instanceUIDs).subscribe(
       data => {
         this._displayData = {
