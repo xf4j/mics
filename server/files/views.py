@@ -34,9 +34,9 @@ class UploadDicomFile(APIView):
         if ret['status'] == 201:
 
             patient = Patient.objects.get(pk=request.data['patient'][0])
-            print("Patient=",patient)
-            print("Patient ID=",patient.id)
-            print("image_study_instance_uid=",ret['study_instance_uid'])
+            # print("Patient=",patient)
+            # print("Patient ID=",patient.id)
+            # print("image_study_instance_uid=",ret['study_instance_uid'])
             if ImageStudy.objects.filter(patient__id=patient.id, image_study_instance_uid=ret['study_instance_uid']).count() == 0:
                 try:
                     print("No matching record")
@@ -49,7 +49,7 @@ class UploadDicomFile(APIView):
             else:
             # ImageStudy.objects.filter(patient__id=patient.id, image_study_instance_uid=ret['study_instance_uid']).count() != 0:
                 try:
-                    print("Existing record")
+                    # print("Existing record")
                     timenow=timezone.now()
                     imagestudy=ImageStudy.objects.get(patient__id=patient.id, image_study_instance_uid=ret['study_instance_uid'])
                     imagestudy.created=timenow
