@@ -36,10 +36,15 @@ class ViewerSeriesDetail(APIView):
         '''
         Return series detail for the use of viewer, including image series, segmentation series and segmentation contours.
         '''
+        print("Test 1")
         ret = retrieve_viewer_series_detail(get_backend_dicom_node(), series_instance_uid)
+        print("Test 2",ret)
+        print("Test 3 ret['status_code']",ret['status_code'])
         if ret['status_code'] == 200:
             r = ret['results']
+            print("Test 4",r)
             detail = ViewerSeriesDetail(series=r['series'])
+            print("Test 5",detail)
             serializer = ViewerSeriesDetailSerializer(detail)
             return Response(data=serializer.data, status=status.HTTP_200_OK)
         else:
