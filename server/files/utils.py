@@ -64,7 +64,8 @@ def get_wado_uri(node, instance_uid):
     try:
         data = opener.open(base_url + '/wado?objectUID=' + instance_uid + '&&requestType=WADO&&contentType=application/dicom')
         return {'status': 200, 'data': data}
-    except urllib.error.HTTPError:
+    except urllib.error.HTTPError as e:
+        print( e.reason)
         return {'status': 404, 'error': "Could not find instance"}
     except:
         return {'status': 500, 'error': "Could not retrieve instance"}
