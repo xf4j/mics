@@ -39,10 +39,10 @@
   // folders, in which case they will be scanned non-recursively to
   // find shared libraries.
   "Plugins" : [
-    "./libModalityWorklist.so",
-    "./libServeFolders.so",
-    "./libOrthancDicomWeb.so",
-    "./libOrthancWebViewer.so"
+    "/mics/orthanc/libModalityWorklist.so",
+    "/mics/orthanc/libServeFolders.so",
+    "/mics/orthanc/libOrthancDicomWeb.so",
+    "/mics/orthanc/libOrthancWebViewer.so"
   ],
 
 
