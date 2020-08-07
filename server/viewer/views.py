@@ -55,10 +55,7 @@ class ViewerInstance(APIView):
         '''
         Return requested instance from backend DICOM node.
         '''
-        print("Test 1 Instance",sop_instance_uid)
         answer = get_wado_uri(get_backend_dicom_node(), sop_instance_uid)
-        print("Test 2 Instance",answer)
-        print("Test 2 Instance",answer['status'])
         if answer['status'] != 200:
             return HttpResponse(content=None, status=answer['status'], content_type='application/json')
         else:

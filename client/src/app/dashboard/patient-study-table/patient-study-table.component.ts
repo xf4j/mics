@@ -8,11 +8,10 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { PatientService, Patient } from '../patient.service';
 import { StudyService, IStudy } from '../../studies/study.service';
-// import { ReportService } from '../../studies/report.service';
 import { UtilService } from '../../_services/util.service';
 import { AuthService } from '../../users/auth.service';
 import { UploadService } from '../../studies/upload.service';
-// import { DownloadService } from '../../studies/download.service';
+import { SeriesService } from '../../dashboard/series.service';
 import { AlertService } from '../../alert/alert.service';
 
 import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
@@ -24,12 +23,11 @@ import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.comp
 })
 export class PatientStudyTableComponent implements OnInit {
 
-  displayedColumns: string[] = ['study_id', 'study_date', 'created'];
+  displayedColumns: string[] = ['select','study_id', 'study_date', 'created'];
   dataSource: MatTableDataSource<any>;
   studySelection = new SelectionModel<any>(true, []);
   patient : Patient;
   selectedPatient: any;
-  // = {id: 1, name: "P1", age: 5, dob: "1997-09-09", sex: "M", organization: "O1", studies:{ }};
   studyList : IStudy[]=[];
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -43,10 +41,10 @@ export class PatientStudyTableComponent implements OnInit {
     private patientService: PatientService,
     private studyService: StudyService,
     // private reportService: ReportService,
-    private confirmDialog: MatDialog,
+    private deleteDialog: MatDialog,
     private authService: AuthService,
     private uploadService: UploadService,
-    // private downloadService: DownloadService,
+    private seriesService: SeriesService,
     private alertService: AlertService,
     public utilService: UtilService,
     private router: Router
@@ -113,6 +111,31 @@ export class PatientStudyTableComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
+  deleteStudies(studies: IStudy[]) {
+    const dialogRef = this.deleteDialog.open(ConfirmDialogComponent, {
+      width: '350px',
+      data: {
+        message: "Are you sure you want to delete these studies?",
+        options: ["Delete", "Cancel"],
+        detail: studies.map(study => 'Study ID: ' + study['image_study_id'])
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == "Delete") {
+        for (let study of studies) {
+          this.studyService.deleteStudy(study,this.selectedPatient.id).subscribe(
+            () => {
+              this.studySelection.clear();
+              this.loadStudies(this.selectedPatient);
+              this.seriesService.setStudiesUpdateStatus(2);
+                          
+            }
+          );
+        }
+      }
+    });
+  }
 
 
 }

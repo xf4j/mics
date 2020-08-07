@@ -48,8 +48,7 @@
           <!-- <button mat-icon-button color="primary" matTooltip="Mark for report generation" [disabled]="!studySelection.selected.length">
                         <mat-icon>publish</mat-icon>
                     </button> -->
-          <button mat-icon-button color="warn" matTooltip="Delete studies" [disabled]="!studySelection.selected.length">
-            <!-- (click)="deleteStudies()"> -->
+          <button mat-icon-button color="warn" matTooltip="Delete studies" [disabled]="!studySelection.selected.length" (click)="deleteStudies(studySelection.selected)">
             <mat-icon>delete</mat-icon>
           </button>
 

@@ -31,9 +31,9 @@ export class PatientStudyComponent implements OnInit {
   @ViewChild(PatientStudyListComponent) patientStudyListComponent;
 
   selectedPatient: any;
-  studyDetails: IStudyDetailTest[]=[];
-  studyList : IStudy[]=[];
-  studyDetailList: IStudyDetail;
+  studyDetails: any;
+  // studyList : IStudy[]=[];   
+  // studyDetailList: IStudyDetail;
   imagingSeries: ISeries[];
   alreadyOpenedTabs: string[]=[];
   treeData: any;
@@ -55,7 +55,12 @@ export class PatientStudyComponent implements OnInit {
     this.patientService.getSelectedPatient().subscribe(
       patient=>{
         this.selectedPatient=patient;
-        this.loadStudies(this.selectedPatient);
+        
+        this.seriesService.loadStudies(this.selectedPatient).subscribe(allStudyDetails =>{
+          this.studyDetails=allStudyDetails;
+          this.setDataSource(allStudyDetails);
+        });
+        
         
       });
       this.seriesService.getNumberofStudiesSelected().subscribe(
@@ -64,8 +69,20 @@ export class PatientStudyComponent implements OnInit {
           
         }
       );
+
+      this.seriesService.getStudiesUpdateStatus().subscribe(
+        ()=>{
+          this.seriesService.loadStudies(this.selectedPatient).subscribe(allStudyDetails =>{
+                this.setDataSource(allStudyDetails);
+              });
+              
+              
+        
+        }
+      )
       
   }
+  
 
   
 
@@ -87,109 +104,73 @@ export class PatientStudyComponent implements OnInit {
     
   }
 
-  loadStudies(patient) {
-    this.selectedPatient=patient;
-        this.studyService.getStudies(this.selectedPatient).subscribe(
-          (data: IStudy[])=>{
-            this.studyList=data;
-            for (let study of this.studyList){
-              let dict={};
-              let dict1={};
-              dict1['Short axis cine']=[]
-              dict1['Others']=[]
-
-              dict['Short axis cine']={}
-              dict['Others']={}
-              
-              dict['Short axis cine']['imagingData']=[];
-              dict['Short axis cine']['metaData']=[];
-              dict['Others']['imagingData']=[];
-              dict['Others']['metaData']=[];
-              // console.log("image_study_instance_uid= ",study['image_study_instance_uid'])
-              this.studyService.getStudy(study['image_study_instance_uid']).subscribe(
-                (studyDetail: IStudyDetail  )=>{ 
-                  this.studyDetailList=studyDetail;
-                  
-                  for (let img in studyDetail['imagingSeries']){
-
-                    let tdict={
-                      modality : studyDetail['imagingSeries'][img]['modality'],
-                      seriesDateTime : studyDetail['imagingSeries'][img]['seriesDateTime'],
-                      seriesDescription : studyDetail['imagingSeries'][img]['seriesDescription'],
-                      studyInstanceUID : studyDetail['imagingSeries'][img]['studyInstanceUID']
-                    }
-                    
-                    if (studyDetail['imagingSeries'][img]['seriesDescription'].includes('short_axis_cine')){
-                        dict1['Short axis cine'].push(studyDetail['imagingSeries'][img]['seriesInstanceUID']);
-                        dict['Short axis cine']['imagingData'].push(studyDetail['imagingSeries'][img]['seriesInstanceUID']);
-                        dict['Short axis cine']['metaData'].push(tdict);
-                      }
-                      else{
-                        dict1['Others'].push(studyDetail['imagingSeries'][img]['seriesInstanceUID']);
-                        dict['Others']['imagingData'].push(studyDetail['imagingSeries'][img]['seriesInstanceUID']);
-                        dict['Others']['metaData'].push(tdict);
-                      }
-                    }
-                    let tempStudyDetail={
-                      study: studyDetail['study'],
-                      imagingSeriesDict:dict1,
-                      state:false,
-                      seriesGroup: dict
-                    }
-                  this.studyDetails.push(tempStudyDetail)
-                  console.log("Study details", this.studyDetails)
-                  // console.log("Study detail", this.studyDetailList)
-                  this.setDataSource(this.studyDetails);
-                  // change this lot of ttimes getting set
-                  
-
-                }
-                
-              );
+  loadSeries(){
+    console.log("Already opened tabs",this.seriesService.alreadyOpenedTabs);
+    console.log("TabsToOpen", this.seriesService.tabsToOpen);
+    let n=Object.keys(this.seriesService.alreadyOpenedTabs).length;
+    // no tabs have been opened
+    if(n==0){
+      for (let study in this.seriesService.tabsToOpen ){
+          for (let series of this.seriesService.tabsToOpen[study]){
+            if (this.seriesService.tabUIDS.hasOwnProperty(series)){
+              // flushing the values of already existing other studies' series with same name
+              delete this.seriesService.tabUIDS[series];
               
             }
-          }          
-        );
-       
- }
- loadSeries(){
-  console.log("Already opened tabs",this.seriesService.alreadyOpenedTabs);
-  console.log("TabsToOpen", this.seriesService.tabsToOpen);
-  let n=Object.keys(this.seriesService.alreadyOpenedTabs).length;
-  if(n==0){
-    for (let study in this.seriesService.tabsToOpen ){
+            for( let detail of this.studyDetails){
+              if(detail['study']['studyID']==study){
+                  this.seriesService.tabUIDS[series]=detail['seriesGroup'][series]['imagingData']
+                  break;
+                }
+            }
+            
+          }
+      }
+  
+    }
+    // if already opened tabs remove from tabs to open
+    else{
+
+      for (let study in this.seriesService.tabsToOpen ){
         for (let series of this.seriesService.tabsToOpen[study]){
+
           if (this.seriesService.tabUIDS.hasOwnProperty(series)){
             // flushing the values of already existing other studies' series with same name
             delete this.seriesService.tabUIDS[series];
             
           }
-          for( let detail of this.studyDetails){
-            if(detail['study']['studyID']==study){
-                this.seriesService.tabUIDS[series]=detail['seriesGroup'][series]['imagingData']
-                break;
+          console.log("tabstoopen",this.seriesService.tabsToOpen)
+          if (this.seriesService.alreadyOpenedTabs.hasOwnProperty(series) && this.seriesService.alreadyOpenedTabs[series]==study){
+              this.seriesService.tabsToOpen[study]=this.seriesService.tabsToOpen[study].filter(obj=> obj!==series);
+              console.log("tabstoopen",this.seriesService.tabsToOpen)
+            }
+          else{
+              for( let detail of this.studyDetails){
+                if(detail['study']['studyID']==study){
+                    this.seriesService.tabUIDS[series]=detail['seriesGroup'][series]['imagingData']
+                    break;
+                  }
               }
-          }
-          
+            }
         }
+      }
     }
-
-  }
-  console.log("-------test series",this.seriesService.tabsToOpen);
-  for (let study in this.seriesService.tabsToOpen ){
-    for (let series of this.seriesService.tabsToOpen[study]){
-      // this.alreadyOpenedTabs.push(tab);
-      this.seriesService.addTab(series);
+    console.log("-------test series",this.seriesService.tabsToOpen);
+    for (let study in this.seriesService.tabsToOpen ){
+      for (let series of this.seriesService.tabsToOpen[study]){
+        // this.alreadyOpenedTabs.push(tab);
+        this.seriesService.alreadyOpenedTabs[series]=study;
+        this.seriesService.addTab(series);
+      }
     }
-  }
-  // for (let tab of tabsToOpen){
-  //   console.log("tab=",tab)
-  //   this.alreadyOpenedTabs.push(tab);
-  //  this.seriesService.addTab(tab);
-   
-  // }  
-
- }
+    // for (let tab of tabsToOpen){
+    //   console.log("tab=",tab)
+    //   this.alreadyOpenedTabs.push(tab);
+    //  this.seriesService.addTab(tab);
+     
+    // }  
+  
+   }
 
  
  xloadSeries(selectedSeries){

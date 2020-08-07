@@ -195,5 +195,53 @@ export class StudyService {
     return studyDetail;
   }
 
+  deleteStudy(study: IStudy, patientId: string): Observable<boolean> {
+    let self = this;
+    return new Observable(observer => {
+      self.authService.refreshAndGetHttpOptionsWithToken().subscribe(
+        httpOptions => {
+                    
+          let api = self.serverService.studiesBaseAPI() + study['image_study_instance_uid'] + '/'+patientId+'/';
+          self.http.delete(api, httpOptions).subscribe(
+            data => {
+              self.alertService.success('Study ' + study['image_study_id'] + ' deleted');
+              observer.next(true);
+            },
+            err => {
+              self.alertService.displayErrors(err['error']);
+              observer.error(err['error']);
+            }
+          );
+        }
+      );
+    });
+  }
+
+  deleteSeries(seriesInstanceUID: string): Observable<boolean> {
+    let self = this;
+    return new Observable(observer => {
+      self.authService.refreshAndGetHttpOptionsWithToken().subscribe(
+        httpOptions => {
+          let api = self.serverService.studiesBaseAPI() + 'series/' + seriesInstanceUID + '/';
+          self.http.delete(api, httpOptions).subscribe(
+            data => {
+              if (data == null) {
+                this.alertService.success('Series deleted');
+                observer.next(true);
+              } else {
+                observer.error();
+              }
+            },
+            err => {
+              this.alertService.displayErrors(err['error']);
+              observer.error(err['error']);
+            }
+          )
+        }
+      );
+    });
+  }
+
+
    
 }

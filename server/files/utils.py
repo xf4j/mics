@@ -50,22 +50,31 @@ def upload_dicom_file(node, dcm_file):
 
 
 def get_wado_uri(node, instance_uid):
-    print("Test 1.1.",instance_uid)
     base_url = 'http://' + node['address'] + ':' + str(node['http_port'])
-    print("Test 1.2",base_url)
-    print("Test 1.3",node['http_username'], node['http_password'])
     password_mgr = urllib.request.HTTPPasswordMgrWithDefaultRealm()
     # The actual realm name is "Orthanc Secure Area", but using None is also fine
     password_mgr.add_password(None, base_url, node['http_username'], node['http_password'])
 
     handler = urllib.request.HTTPBasicAuthHandler(password_mgr)
     opener = urllib.request.build_opener(handler)
-    print("Test 1.4",opener)
     try:
         data = opener.open(base_url + '/wado?objectUID=' + instance_uid + '&&requestType=WADO&&contentType=application/dicom')
         return {'status': 200, 'data': data}
     except urllib.error.HTTPError as e:
-        print( e.reason)
         return {'status': 404, 'error': "Could not find instance"}
     except:
         return {'status': 500, 'error': "Could not retrieve instance"}
+
+def get_resource_id(node, uid, level):
+    base_url = 'http://' + node['address'] + ':' + str(node['http_port'])
+    if level == 'Series':
+        data = '{"Level": "Series", "Query": {"SeriesInstanceUID": "' + uid + '"}}'
+    elif level == 'Study':
+        data = '{"Level": "Study", "Query": {"StudyInstanceUID": "' + uid + '"}}'
+    url = base_url + '/tools/find'
+    auth = (node['http_username'], node['http_password'])
+    r = requests.post(url, data=data, auth=auth)
+    try:
+        return r.json()[0]
+    except:
+        return ''

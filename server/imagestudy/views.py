@@ -15,7 +15,8 @@ from organizations.models import Organization
 from users.permissions import IsOrganizationAdminUserOrIsStaffUser
 # from files.utils import ROI_NAMES
 from files.utils import get_backend_dicom_node
-from .utils import retrieve_study_detail
+from .utils import retrieve_study_detail, delete_study
+
 
 class ImageStudyViewSet(viewsets.ModelViewSet):
     '''
@@ -103,4 +104,28 @@ class ImageStudyDetail(APIView):
         else:
             return Response(data={'non_field_errors': [uid + ': ' + ret['error']]}, status=ret['status'])
 
+class ImageStudies(APIView):
+
+    permission_class = (permissions.IsAuthenticated, IsOrganizationAdminUserOrIsStaffUser)
+
+    def delete(self, request, uid, pid, format=None):
+
+        '''
+        Delete the given study.
+        '''
+        patient = Patient.objects.get(pk=pid)
+        print(pid,uid,"\n \n \n")
+        imagestudy=ImageStudy.objects.get(patient__id=pid, image_study_instance_uid=uid)
+        print(imagestudy)
+        
+        imagestudy.delete()
+        try:
+            node=get_backend_dicom_node()
+            print(node)
+            delete_study(node, uid)
+            return Response(data=None, status=status.HTTP_204_NO_CONTENT)
+        except:
+            return Response(data={'non_field_errors': [uid + ': Could not delete the study']}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+                 
     

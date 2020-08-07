@@ -85,7 +85,7 @@ export class ViewerService {
   }
 
   loadDisplayData(uids: string[]): Observable<IDicomViewerDisplayData> {
-    console.log("Test 2",uids)
+    // console.log("Test 2",uids)
     let self = this;
     return new Observable(observer => {
       self.authService.refreshAndGetHttpOptionsWithToken().subscribe(
@@ -109,7 +109,7 @@ export class ViewerService {
           // for (let uid of uids) {
           for (let i = 0; i < uids.length; i++) {
             let imageId = 'wadouri:' + self.serverService.viewerBaseAPI() + 'instances/' + uids[i] + '/';
-            console.log("Test 3",imageId)
+            // console.log("Test 3",imageId)
             cornerstone.loadAndCacheImage(imageId).then(
               image => {
                 allImages.push(image);
@@ -133,7 +133,7 @@ export class ViewerService {
                   self.alertService.error('Load image failed, please retry.');
                   observer.error('Load image failed.');
                 }
-                console.log("Test 4")
+                // console.log("Test 4")
               }, 
               err => {
                    loadCount++;
@@ -142,7 +142,7 @@ export class ViewerService {
                   self.alertService.error('Load image failed, please retry.');
                   observer.error(err);
                 }
-                console.log("Test 5")
+                // console.log("Test 5")
               }
             );
           }

@@ -2,7 +2,7 @@ from pynetdicom import AE
 from pynetdicom.sop_class import StudyRootQueryRetrieveInformationModelFind, StudyRootQueryRetrieveInformationModelMove
 from pydicom.dataset import Dataset
 import requests
-# from dicom_nodes.utils import get_resource_id
+from files.utils import get_resource_id
 
 STUDY_ITEMS = (
     'StudyID',
@@ -90,3 +90,11 @@ def get_study_instance_uids_associated_with_user(user):
     for user_study in user.userstudy_set.all():
         study_instance_uids.append(user_study.study_instance_uid)
     return study_instance_uids
+
+def delete_study(node, study_instance_uid):
+    resource = get_resource_id(node, study_instance_uid, 'Study')
+    base_url = 'http://' + node['address'] + ':' + str(node['http_port'])
+    url = base_url + '/studies/' + resource
+    auth = (node['http_username'], node['http_password'])
+    response = requests.delete(url, auth=auth)
+    return response

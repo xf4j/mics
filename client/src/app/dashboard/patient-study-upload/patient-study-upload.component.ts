@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef, Input } from '@angular/core';
 
-// import { AuthService } from '../../../auth/auth.service';
-// import { StudyTableComponent } from '../study-table/study-table.component';
+import { SeriesService } from '../series.service';
+import { PatientStudyComponent} from '../patient-study/patient-study.component';
 import { PatientStudyTableComponent } from '../patient-study-table/patient-study-table.component';
 import  {AlertService } from '../../alert/alert.service';
 import { UploadService } from '../../studies/upload.service';
@@ -25,11 +25,10 @@ export class PatientStudyUploadComponent implements OnInit {
 
   @ViewChild(PatientStudyTableComponent)
   private studyTableComponent: PatientStudyTableComponent;
-
   constructor(
     private changeDetectorRef: ChangeDetectorRef, 
     public uploadService: UploadService,
-    // public authService: AuthService,
+    private seriesService: SeriesService,
     private alertService: AlertService
   ) { }
 
@@ -43,10 +42,13 @@ export class PatientStudyUploadComponent implements OnInit {
         this.isUploading = false;
         this.selectedFiles = null;
         this.studyTableComponent.loadStudies(this.selectedPatient);
+        this.seriesService.setStudiesUpdateStatus(1);
+        // this.patientStudyComponent.loadStudies(this.selectedPatient);
       },
       err => {
         this.isUploading = false;
         this.selectedFiles = null;
+        this.seriesService.setStudiesUpdateStatus(1);
       }
     );
   }
