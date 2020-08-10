@@ -64,6 +64,7 @@ tabs = ['Upload'];
 selected = new FormControl(0);
 
 addTab(tabName:string) {
+  console.log("Inside Add Tab");
   this.tabs.push(tabName);
   this.selected.setValue(this.tabs.length - 1);
   
