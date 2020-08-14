@@ -33,7 +33,7 @@ class UploadDicomFile(APIView):
         os.remove(temp_path)
         if ret['status'] == 201:
 
-            patient = Patient.objects.get(pk=request.data['patient'][0])
+            patient = Patient.objects.get(pk=request.data['patient'])
             if ImageStudy.objects.filter(patient__id=patient.id, image_study_instance_uid=ret['study_instance_uid']).count() == 0:
                 try:
                     imagestudy = ImageStudy(patient=patient, image_study_instance_uid=ret['study_instance_uid'], image_study_id=ret['study_id'], image_study_date=ret['study_date'], dicom_patient_id=ret['patient_id'])

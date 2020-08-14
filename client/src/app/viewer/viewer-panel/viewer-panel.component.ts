@@ -48,7 +48,6 @@ export class ViewerPanelComponent implements OnInit {
   ngOnInit(): void {
     this.cornerstoneWADOImageLoaderInit();
     this.isLoading = true;
-    console.log("test 1",this.seriesDetail.instanceUIDs)
     this.viewerService.loadDisplayData(this.seriesDetail.instanceUIDs).subscribe(
       data => {
         this._displayData = {
@@ -122,7 +121,12 @@ export class ViewerPanelComponent implements OnInit {
           }
         }
       };
+      try{
       cornerstoneWADOImageLoader.webWorkerManager.initialize(webWorkerConfig); // config web worker
+      }
+      catch(error){
+        
+      }
       // specify the cornerstone instance you want to register the loader with
       cornerstoneWADOImageLoader.external.cornerstone = cornerstone; // inject Cornerstone instance into Cornerstone Tools when using a module system
       cornerstoneWADOImageLoader.external.dicomParser = dicomParser; // need to add this if using WADO Image Loader with a packaging system that uses modules

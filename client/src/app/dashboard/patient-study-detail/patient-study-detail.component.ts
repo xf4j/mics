@@ -32,10 +32,7 @@ export class PatientStudyDetailComponent implements OnInit {
 
   openViewer(series: ISeries) {
     
-    // console.log("3: series.seriesInstanceUID=",series.seriesInstanceUID)
-    // this.router.navigate(['/viewer/' + series.seriesInstanceUID]);
     let url = '/viewer/' + series.seriesInstanceUID;
-    // console.log(url)
     window.open(url, '_blank');
   }
 

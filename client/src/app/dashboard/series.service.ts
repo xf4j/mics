@@ -16,7 +16,8 @@ export class SeriesService {
 
   tabUIDS={};
   tabsToOpen={};
-  alreadyOpenedTabs={};
+  alreadyOpenedTabs=[];
+  currentStudy:any;
   selectedPatient: any;
   studyDetails: IStudyDetailTest[]=[];
   studyList : IStudy[]=[];
@@ -64,17 +65,18 @@ tabs = ['Upload'];
 selected = new FormControl(0);
 
 addTab(tabName:string) {
-  console.log("Inside Add Tab");
   this.tabs.push(tabName);
   this.selected.setValue(this.tabs.length - 1);
   
 }
 
 removeTab(index: number) {
-  console.log("-----",this.alreadyOpenedTabs[this.tabs[index]])
-  console.log(this.alreadyOpenedTabs)
-  delete this.alreadyOpenedTabs[this.tabs[index]]
-  console.log(this.alreadyOpenedTabs,"-------------")
+  let i= this.alreadyOpenedTabs.indexOf(this.tabs[index])
+  this.alreadyOpenedTabs.splice(i,1);
+  if(this.alreadyOpenedTabs.length==0){
+      this.currentStudy=null
+  }
+   
   this.tabs.splice(index, 1);
   
 }

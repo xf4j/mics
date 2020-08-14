@@ -1,6 +1,6 @@
 import { Component, OnInit , ViewChild, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
 import { PatientService } from '../patient.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../users/auth.service';
@@ -27,7 +27,7 @@ export class ViewPatientComponent implements OnInit {
   editMode: boolean = false;
   organizationList: any[] = [];
   disablesidenav : boolean =false;
-  // seriesUIDs: any[];
+  isLoading: boolean = false;
 
   @ViewChild(PatientStudyComponent)
   private patientStudyComponent: PatientStudyComponent;
@@ -44,7 +44,8 @@ export class ViewPatientComponent implements OnInit {
     private confirmDialog: MatDialog,
     private router: Router,
     private viewerService: ViewerService,
-    public seriesService: SeriesService
+    public seriesService: SeriesService,
+    private route: ActivatedRoute,
   ) {
     this.patientForm = this.formBuilder.group({
       id: '',
@@ -60,7 +61,9 @@ export class ViewPatientComponent implements OnInit {
   ngOnInit(): void {
     // this.disablesidenav=true;
     // this.authService.toggleSidenav(true);
-    this.patientService.getSelectedPatient().subscribe(
+    this.isLoading=true;
+    const pid=this.route.snapshot.paramMap.get('pid');
+    this.patientService.getPatient(pid).subscribe(
       patient => {
         if (!!patient) {
           
@@ -72,10 +75,19 @@ export class ViewPatientComponent implements OnInit {
               dob: patient['dob']
             });
             this.selectedPatient = patient;
-          // }
+            this.patientService.setSelectedPatient(patient);
+            this.seriesService.tabs = ['Upload'];
+            this.seriesService.selected = new FormControl(0);
+            this.seriesService.alreadyOpenedTabs=[]
+            this.seriesService.tabsToOpen={}
+            this.seriesService.tabUIDS={}
+            this.seriesService.currentStudy=null
+            this.isLoading=false;
+
         }
       }
-    );
+    );;
+    
   }
 
   enableEditMode(): void {

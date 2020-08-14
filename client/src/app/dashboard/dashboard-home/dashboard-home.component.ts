@@ -7,8 +7,6 @@ import { map, first } from 'rxjs/operators';
 
 import { AuthService } from '../../users/auth.service';
 import { UserService } from '../../users/user.service';
-//import { OrganizationService } from '../../organizations/organization.service';
-
 import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 
 @Component({
@@ -26,10 +24,8 @@ export class DashboardHomeComponent implements OnInit {
   athleteForm: FormGroup;
 
   constructor(
-    // private athleteService: AthleteService,
     private authService: AuthService,
     private userService: UserService,
-    //private organizationService: OrganizationService,
     private formBuilder: FormBuilder,
     private confirmDialog: MatDialog
   ) {
@@ -46,6 +42,6 @@ export class DashboardHomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.athleteService.getAthletes();
+    
   }
 }

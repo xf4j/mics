@@ -56,26 +56,5 @@ export class PatientService {
     });
   }
 
-  getPatient(patientId: string): Observable<any> {
-    let self = this;
-    return new Observable(observer => {
-      self.authService.refreshAndGetHttpOptionsWithToken().subscribe(
-        httpOptions => self.http.get(self.serverService.patientsBaseAPI() + patientId + '/', httpOptions).subscribe(
-          data => {
-            if (self.alertService.checkAndDisplayError(data)) {
-              observer.next(data);
-            }
-            else {
-              self.alertService.error("Could not connect to server.");
-              observer.error();
-            }
-          },
-          err => {
-            self.alertService.checkAndDisplayError(err);
-            observer.error(err);
-          }
-        )
-      );
-    });
-  }
+  
 }

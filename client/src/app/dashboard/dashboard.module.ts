@@ -22,11 +22,10 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { MatListModule, MatList } from '@angular/material/list';
 import { MatTreeModule } from '@angular/material/tree';
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { DashboardTableComponent } from './dashboard-table/dashboard-table.component';
 import { DashboardHomeComponent } from './dashboard-home/dashboard-home.component';
 import { PatientDashboardComponent } from './patient-dashboard/patient-dashboard.component';
 import { PatientTableComponent } from './patient-table/patient-table.component';
@@ -43,7 +42,6 @@ import { PatientStudyListComponent } from './patient-study-list/patient-study-li
 @NgModule({
   declarations: [
     DashboardComponent,
-    DashboardTableComponent,
     DashboardHomeComponent,
     PatientDashboardComponent,
     PatientTableComponent,
@@ -72,8 +70,7 @@ import { PatientStudyListComponent } from './patient-study-list/patient-study-li
     MatIconModule,
     MatButtonModule,
     MatToolbarModule,
-    // MatList,
-    // MatCheckbox,
+    MatProgressSpinnerModule,
     MatPaginatorModule,
     MatDialogModule,
     MatListModule,

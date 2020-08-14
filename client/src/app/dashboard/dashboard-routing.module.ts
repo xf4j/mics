@@ -29,7 +29,7 @@ const dashboardRoutes: Routes = [
             component: AddPatientComponent,
           },
           {
-            path: 'view-patient',
+            path: 'patient/:pid',
             component: ViewPatientComponent,
             canActivate: [StaffGuard],
             canDeactivate: [CanDeactivateGuard]

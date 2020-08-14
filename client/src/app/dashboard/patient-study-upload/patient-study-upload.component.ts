@@ -37,17 +37,22 @@ export class PatientStudyUploadComponent implements OnInit {
 
   upload() {
     this.isUploading = true;
+    console.log(this.selectedPatient)
     this.uploadService.uploadFiles(this.selectedFiles, this.selectedPatient.id).subscribe(
       data => {
         this.isUploading = false;
         this.selectedFiles = null;
         this.studyTableComponent.loadStudies(this.selectedPatient);
+        console.log("Patient",this.selectedPatient)
         this.seriesService.setStudiesUpdateStatus(1);
+        console.log("Succes")
         // this.patientStudyComponent.loadStudies(this.selectedPatient);
       },
       err => {
+        console.log("Error")
         this.isUploading = false;
         this.selectedFiles = null;
+        this.studyTableComponent.loadStudies(this.selectedPatient);
         this.seriesService.setStudiesUpdateStatus(1);
       }
     );

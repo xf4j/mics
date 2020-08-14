@@ -1,4 +1,9 @@
 
+<div *ngIf="isLoading" style="margin-left: 25px; padding-top: 25px;">
+  Loading...
+  <mat-spinner diameter="25" color="primary"></mat-spinner>
+</div>
+<div *ngIf="!isLoading">
   <mat-drawer-container class="example-container">
     <mat-drawer mode="side" opened>
       <mat-card class="card">
@@ -145,3 +150,5 @@
      
 </mat-drawer-content>
 </mat-drawer-container> 
+
+</div>

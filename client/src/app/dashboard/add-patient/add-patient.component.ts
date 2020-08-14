@@ -8,6 +8,7 @@ import { AuthService } from '../../users/auth.service';
 import { OrganizationService } from '../../organizations/organization.service';
 import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { PatientService } from '../patient.service';
+import { SeriesService } from '../series.service';
 
 @Component({
   selector: 'app-add-patient',
@@ -26,7 +27,8 @@ export class AddPatientComponent implements OnInit {
     private organizationService: OrganizationService,
     private router: Router,
     private confirmDialog: MatDialog,
-    private patientService:PatientService
+    private patientService:PatientService,
+    private seriesService: SeriesService
   ) { 
 
     this.patientForm = this.formBuilder.group({
